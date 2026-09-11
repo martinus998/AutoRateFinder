@@ -10,13 +10,29 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://martinus998.github.io/AutoRateFinder/">
   <title>AutoRateFinder — Compare Car Insurance Smarter</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=20260911-2230">
+<style>
+@media(max-width:620px){
+  .hero-stage{min-height:350px!important}
+  .hero-copy{width:66%!important;padding:22px 0 16px!important}
+  .hero-copy h1{font-size:30px!important;line-height:1.02!important;max-width:280px!important;margin:7px 0 10px!important}
+  .hero-copy>p{font-size:11px!important;line-height:1.4!important;max-width:275px!important}
+  .hero-stage:after{inset:0 0 0 31%!important;opacity:1!important;background-position:center right!important}
+  .hero-stage:before{background:linear-gradient(90deg,#061f40 0%,rgba(6,31,64,.98) 40%,rgba(6,31,64,.42) 67%,rgba(3,19,39,.02) 92%)!important}
+  .zip-hero{max-width:265px!important}
+  .benefit-row,.coverage-row{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+  .savings-grid{grid-template-columns:1.5fr .9fr!important}
+}
+</style>
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="#top" aria-label="AutoRateFinder home"><span class="brand-mark">AR</span><span><strong>AutoRate<span>Finder</span></strong><small>Compare. Save. Drive Smarter.</small></span></a>
+    <a class="brand" href="#top" aria-label="AutoRateFinder home">
+      <span class="brand-mark">AR</span>
+      <span><strong>AutoRate<span>Finder</span></strong><small>Compare. Save. Drive Smarter.</small></span>
+    </a>
     <nav><a href="#how">How It Works</a><a href="#coverage">Coverage</a><a href="#discounts">Discounts</a><a href="#faq">FAQ</a></nav>
-    <button class="btn primary js-start">Get Quotes</button>
+    <button class="btn primary js-start">Get Quotes →</button>
   </header>
 
   <main id="top" class="shell page">
@@ -30,13 +46,13 @@
     <section class="hero-stage">
       <div class="hero-copy">
         <div class="eyebrow">BUILT FOR U.S. DRIVERS</div>
-        <h1>Find a better car<br>insurance rate <span>in minutes.</span></h1>
+        <h1>Find a better car insurance rate <span>in minutes.</span></h1>
         <p>Compare the same coverage, see real differences and find out how much you could save.</p>
         <div class="zip-hero">
-          <div class="zip-field"><span>⌖</span><input id="zipInput" inputmode="numeric" maxlength="5" autocomplete="postal-code" placeholder="Enter ZIP code  e.g. 33101"></div>
+          <div class="zip-field"><span>⌖</span><input id="zipInput" inputmode="numeric" maxlength="5" autocomplete="postal-code" placeholder="Enter ZIP code · e.g. 33101"></div>
           <button class="btn primary" id="zipStart">Compare my rates →</button>
         </div>
-        <div class="hero-trust"><span>🔒 No phone number</span><span>✓ Free to compare</span><span>✓ No hidden fees</span></div>
+        <div class="hero-trust"><span>✓ No phone number to start</span><span>✓ Free to compare</span><span>✓ No hidden fees</span></div>
       </div>
     </section>
 
@@ -48,13 +64,16 @@
 
     <section class="savings-grid">
       <div class="savings-panel">
-        <div class="panel-top"><div><span class="eyebrow">EXAMPLE SAVINGS</span><h2>See how much you could save</h2></div><small>Illustrative example — actual rates vary</small></div>
+        <div class="panel-top">
+          <div><span class="eyebrow">EXAMPLE SAVINGS</span><h2>See how much you could save</h2></div>
+          <small>Illustrative example — actual rates vary</small>
+        </div>
         <div class="compare-table" role="table" aria-label="Illustrative insurance savings example">
-          <div class="trow thead" role="row"><span>Provider</span><span>Monthly rate</span><span>Coverage</span><span>Potential savings</span></div>
+          <div class="trow thead" role="row"><span>Option</span><span>Monthly</span><span>Coverage</span><span>Potential savings</span></div>
           <div class="trow" role="row"><b>Current plan</b><strong>$160</strong><span>Full Coverage</span><span>—</span></div>
-          <div class="trow highlight" role="row"><b>Carrier B</b><strong>$128</strong><span>Full Coverage</span><span class="save">Save $32/mo</span></div>
-          <div class="trow" role="row"><b>Carrier C</b><strong>$138</strong><span>Full Coverage</span><span class="save">Save $22/mo</span></div>
-          <div class="trow" role="row"><b>Carrier D</b><strong>$149</strong><span>Full Coverage</span><span class="save">Save $11/mo</span></div>
+          <div class="trow highlight" role="row"><b>Example B</b><strong>$128</strong><span>Full Coverage</span><span class="save">Save $32/mo</span></div>
+          <div class="trow" role="row"><b>Example C</b><strong>$138</strong><span>Full Coverage</span><span class="save">Save $22/mo</span></div>
+          <div class="trow" role="row"><b>Example D</b><strong>$149</strong><span>Full Coverage</span><span class="save">Save $11/mo</span></div>
         </div>
         <p class="fineprint">Example only, not a quote. Actual prices, discounts and eligibility depend on insurer, state and driver profile.</p>
       </div>
@@ -73,14 +92,28 @@
     </section>
 
     <section id="coverage" class="coverage-row">
-      <article class="coverage-card green"><div class="coverage-head"><span>🚗</span><div><h3>Minimum Coverage</h3><p>Meet state requirements</p></div></div><ul><li>Lower monthly cost focus</li><li>Basic protection</li><li>Good for older vehicles</li></ul><button class="btn green-btn js-start" data-goal="minimum">Choose this option</button></article>
-      <article class="coverage-card blue featured"><div class="coverage-head"><span>🛡</span><div><h3>Best Value</h3><p>Balanced protection &amp; price</p></div></div><ul><li>Price + protection balance</li><li>Good coverage limits</li><li>Great starting point for most drivers</li></ul><button class="btn blue-btn js-start" data-goal="value">Choose this option</button></article>
-      <article class="coverage-card violet"><div class="coverage-head"><span>◆</span><div><h3>Full Coverage</h3><p>More complete protection</p></div></div><ul><li>Comprehensive &amp; collision focus</li><li>Useful for newer vehicles</li><li>Higher protection level</li></ul><button class="btn violet-btn js-start" data-goal="full">Choose this option</button></article>
+      <article class="coverage-card green">
+        <div class="coverage-head"><span>🚗</span><div><h3>Minimum Coverage</h3><p>Meet state requirements</p></div></div>
+        <ul><li>Lower monthly cost focus</li><li>Basic protection</li><li>Good for older vehicles</li></ul>
+        <button class="btn green-btn js-start" data-goal="minimum">Choose this option →</button>
+      </article>
+      <article class="coverage-card blue featured">
+        <div class="coverage-head"><span>🛡</span><div><h3>Best Value</h3><p>Balanced protection &amp; price</p></div></div>
+        <ul><li>Price + protection balance</li><li>Good coverage limits</li><li>Great starting point for most drivers</li></ul>
+        <button class="btn blue-btn js-start" data-goal="value">Choose this option →</button>
+      </article>
+      <article class="coverage-card violet">
+        <div class="coverage-head"><span>◆</span><div><h3>Full Coverage</h3><p>More complete protection</p></div></div>
+        <ul><li>Comprehensive &amp; collision focus</li><li>Useful for newer vehicles</li><li>Higher protection level</li></ul>
+        <button class="btn violet-btn js-start" data-goal="full">Choose this option →</button>
+      </article>
     </section>
 
     <section id="discounts" class="discount-bar">
-      <div class="discount-title"><span class="discount-icon">%</span><div><h3>Find discounts you may qualify for</h3><p>The more you qualify for, the more you may be able to save</p></div></div>
-      <div class="discount-checks" id="discountChecks"><button data-discount="low-mileage">◉ Low mileage</button><button data-discount="multi-car">▣ Multi-car</button><button data-discount="student">◆ Good student</button><button data-discount="defensive">♢ Safe driver</button><button data-discount="bundle">⌂ Home + auto</button><button data-discount="telematics">★ Telematics</button><button data-discount="paid-full">$ Pay in full</button><button data-discount="anti-theft">● Anti-theft</button></div>
+      <div class="discount-title"><span class="discount-icon">%</span><div><h3>Find discounts you may qualify for</h3><p>The more you qualify for, the more you may be able to save.</p></div></div>
+      <div class="discount-checks" id="discountChecks">
+        <button data-discount="low-mileage">Low mileage</button><button data-discount="multi-car">Multi-car</button><button data-discount="student">Good student</button><button data-discount="defensive">Safe driver</button><button data-discount="bundle">Home + auto</button><button data-discount="telematics">Telematics</button><button data-discount="paid-full">Pay in full</button><button data-discount="anti-theft">Anti-theft</button>
+      </div>
       <p id="discountMessage" class="discount-message">Choose anything that may apply to you. A carrier must confirm eligibility.</p>
     </section>
 
@@ -89,16 +122,28 @@
     <section class="lower-grid">
       <div class="info-card">
         <span class="eyebrow">DEDUCTIBLE EXPLAINER</span><div class="row-title"><h2>See the trade-off</h2><strong id="deductibleValue">$500</strong></div>
-        <input id="deductibleSlider" type="range" min="0" max="3" step="1" value="1"><div class="range-labels"><span>$250</span><span>$500</span><span>$1,000</span><span>$2,000</span></div><p id="deductibleNote">A common middle ground between premium and out-of-pocket exposure. Compare the same deductible across carriers.</p>
+        <input id="deductibleSlider" type="range" min="0" max="3" step="1" value="1">
+        <div class="range-labels"><span>$250</span><span>$500</span><span>$1,000</span><span>$2,000</span></div>
+        <p id="deductibleNote">A common middle ground between premium and out-of-pocket exposure. Compare the same deductible across carriers.</p>
       </div>
-      <div class="info-card" id="faq"><span class="eyebrow">QUICK FAQ</span><h2>Before you compare</h2><details><summary>Are these example prices live quotes?</summary><p>No. The savings table is an illustrative example. Live prices will only come from appropriately licensed partners.</p></details><details><summary>Do I need to enter a phone number?</summary><p>No phone number is required to start the preview comparison.</p></details><details><summary>Does AutoRateFinder sell insurance?</summary><p>No. AutoRateFinder is comparison/referral technology, not an insurer or licensed insurance producer.</p></details></div>
+      <div class="info-card" id="faq">
+        <span class="eyebrow">QUICK FAQ</span><h2>Before you compare</h2>
+        <details><summary>Are these example prices live quotes?</summary><p>No. The savings table is illustrative. Live prices will only come from appropriately licensed partners.</p></details>
+        <details><summary>Do I need to enter a phone number?</summary><p>No phone number is required to start the preview comparison.</p></details>
+        <details><summary>Does AutoRateFinder sell insurance?</summary><p>No. AutoRateFinder is comparison/referral technology, not an insurer or licensed insurance producer.</p></details>
+      </div>
     </section>
   </main>
 
-  <footer><div class="shell footer-row"><span><b>AutoRateFinder</b> — Compare smarter. Stay in control.</span><span><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="disclosure.html">Affiliate disclosure</a></span></div><div class="shell legal-note">AutoRateFinder is not an insurance company, insurance agency or insurance producer and does not underwrite, bind, sell, solicit or negotiate insurance. Final quotes and policies must come from appropriately licensed providers or partners. Prices shown in the savings example are illustrative, not actual offers. © 2026 AutoRateFinder.</div></footer>
+  <footer>
+    <div class="shell footer-row"><span><b>AutoRateFinder</b> — Compare smarter. Stay in control.</span><span><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="disclosure.html">Affiliate disclosure</a></span></div>
+    <div class="shell legal-note">AutoRateFinder is not an insurance company, insurance agency or insurance producer and does not underwrite, bind, sell, solicit or negotiate insurance. Final quotes and policies must come from appropriately licensed providers or partners. Prices shown in the savings example are illustrative, not actual offers. © 2026 AutoRateFinder.</div>
+  </footer>
 
   <div class="modal" id="quoteModal" aria-hidden="true">
-    <div class="modal-backdrop" data-close></div><div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><button class="modal-close" data-close aria-label="Close">×</button><div class="progress"><span id="progressBar"></span></div>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" data-close aria-label="Close">×</button><div class="progress"><span id="progressBar"></span></div>
       <div class="step-panel active" data-step="1"><span class="eyebrow">STEP 1 OF 6</span><h2 id="modalTitle">Where is the vehicle primarily kept?</h2><p>ZIP code helps determine state rules and local rating factors.</p><label>ZIP code<input id="modalZip" inputmode="numeric" maxlength="5" placeholder="5-digit ZIP code"></label><button class="btn primary next-step">Continue</button></div>
       <div class="step-panel" data-step="2"><span class="eyebrow">STEP 2 OF 6</span><h2>What is your age range?</h2><div class="choice-grid" data-field="age"><button>18–24</button><button>25–34</button><button>35–49</button><button>50–64</button><button>65+</button></div><button class="btn primary next-step">Continue</button></div>
       <div class="step-panel" data-step="3"><span class="eyebrow">STEP 3 OF 6</span><h2>Tell us about the vehicle.</h2><div class="form-grid"><label>Year<input id="vehicleYear" inputmode="numeric" maxlength="4" placeholder="2022"></label><label>Make<input id="vehicleMake" placeholder="Toyota"></label><label class="wide">Model<input id="vehicleModel" placeholder="Camry"></label></div><button class="btn primary next-step">Continue</button></div>
@@ -108,6 +153,6 @@
       <div class="step-panel result" data-step="result"><span class="eyebrow">PROFILE INSIGHT — NOT A QUOTE</span><h2>Your comparison profile is ready.</h2><div class="result-box"><div><span>ZIP</span><b id="rZip">—</b></div><div><span>Coverage</span><b id="rCoverage">—</b></div><div><span>Record</span><b id="rRecord">—</b></div></div><div class="pressure-card"><span>Profile signal</span><b id="ratePressure">—</b><p id="pressureText">Educational only.</p></div><div id="resultReasons" class="result-reasons"></div><div class="result-warning"><b>Why the final price may change</b><p>Carrier underwriting may use driving history, claims history, insurance history, vehicle details and other state-permitted rating factors.</p></div><button class="btn primary" id="partnerBtn" disabled>Live partner quotes opening soon</button><small>No insurer price is generated or guaranteed by AutoRateFinder.</small></div>
     </div>
   </div>
-  <script src="app.js"></script>
+  <script src="app.js?v=20260911-2230"></script>
 </body>
 </html>
