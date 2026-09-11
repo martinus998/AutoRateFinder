@@ -32,7 +32,14 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p _site
-          cp index.html style.css app.js robots.txt sitemap.xml privacy.html terms.html disclosure.html _site/
+          cp index.html style.css dense-v3.css app.js robots.txt sitemap.xml privacy.html terms.html disclosure.html _site/
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('_site/index.html')
+          s = p.read_text(encoding='utf-8')
+          s = s.replace('</head>', '<link rel="stylesheet" href="dense-v3.css?v=20260911-2315">\n</head>')
+          p.write_text(s, encoding='utf-8')
+          PY
           if compgen -G 'google*.html' > /dev/null; then cp google*.html _site/; fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
