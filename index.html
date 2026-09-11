@@ -9,19 +9,38 @@
   <meta property="og:description" content="Compare the same coverage, see potential savings and keep control of your data.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://martinus998.github.io/AutoRateFinder/">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
   <title>AutoRateFinder — Compare Car Insurance Smarter</title>
-  <link rel="stylesheet" href="style.css?v=20260911-2230">
+  <link rel="stylesheet" href="style.css?v=20260911-2240">
 <style>
+html,body{background:#021426!important;color:#f7fbff!important}
+body{background:radial-gradient(circle at 86% 8%,rgba(43,114,255,.22),transparent 28%),radial-gradient(circle at 10% 20%,rgba(31,226,167,.13),transparent 24%),linear-gradient(180deg,#021426 0%,#031b33 48%,#021225 100%)!important}
+main,.page{background:transparent!important}
+.site-header{background:rgba(2,18,39,.97)!important;border-bottom:1px solid rgba(54,150,220,.25)!important}
+.savings-panel,.potential-panel,.coverage-card,.discount-bar,.info-card,.benefit-row article{background:linear-gradient(180deg,#071f3d 0%,#04172d 100%)!important;color:#f7fbff!important}
+.compare-table,.trow{background-color:#06182e!important}
+.trow.highlight{background:linear-gradient(90deg,rgba(31,226,167,.17),rgba(24,110,170,.11))!important}
+footer{background:#021225!important}
 @media(max-width:620px){
-  .hero-stage{min-height:350px!important}
-  .hero-copy{width:66%!important;padding:22px 0 16px!important}
-  .hero-copy h1{font-size:30px!important;line-height:1.02!important;max-width:280px!important;margin:7px 0 10px!important}
-  .hero-copy>p{font-size:11px!important;line-height:1.4!important;max-width:275px!important}
-  .hero-stage:after{inset:0 0 0 31%!important;opacity:1!important;background-position:center right!important}
-  .hero-stage:before{background:linear-gradient(90deg,#061f40 0%,rgba(6,31,64,.98) 40%,rgba(6,31,64,.42) 67%,rgba(3,19,39,.02) 92%)!important}
-  .zip-hero{max-width:265px!important}
-  .benefit-row,.coverage-row{grid-template-columns:repeat(3,minmax(0,1fr))!important}
-  .savings-grid{grid-template-columns:1.5fr .9fr!important}
+  .site-header{height:58px!important;padding:0 10px!important}
+  .brand-mark{width:40px!important;height:40px!important;font-size:18px!important}
+  .brand strong{font-size:17px!important}.brand small{font-size:7px!important}.site-header .btn{font-size:9px!important;padding:8px 11px!important}
+  .trust-strip{height:40px!important;font-size:7.5px!important;gap:6px!important}
+  .hero-stage{min-height:300px!important;border-radius:16px!important;margin-top:6px!important}
+  .hero-copy{width:61%!important;padding:18px 0 13px!important}
+  .hero-copy .eyebrow{font-size:7px!important;letter-spacing:.12em!important}
+  .hero-copy h1{font-size:24px!important;line-height:1.03!important;letter-spacing:-.03em!important;max-width:245px!important;margin:6px 0 9px!important}
+  .hero-copy>p{font-size:9px!important;line-height:1.38!important;max-width:235px!important;margin-bottom:11px!important}
+  .hero-stage:after{inset:0 0 0 28%!important;opacity:1!important;background-position:61% center!important;background-size:cover!important}
+  .hero-stage:before{background:linear-gradient(90deg,#061f40 0%,rgba(6,31,64,.98) 36%,rgba(6,31,64,.48) 61%,rgba(3,19,39,.03) 91%)!important}
+  .zip-hero{max-width:235px!important;border-radius:9px!important}.zip-field{grid-template-columns:30px 1fr!important}.zip-field span{font-size:18px!important}.zip-field input{padding:9px 4px!important;font-size:9px!important}.zip-hero .btn{padding:9px 6px!important;font-size:9px!important}
+  .hero-trust{gap:7px!important;font-size:6.5px!important;margin-top:8px!important}
+  .benefit-row{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important;margin:7px 0!important}.benefit-row article{padding:6px!important;gap:5px!important}.round-icon{width:28px!important;height:28px!important;font-size:12px!important}.benefit-row b{font-size:7px!important}.benefit-row small{font-size:5px!important}
+  .savings-grid{grid-template-columns:1.5fr .9fr!important;gap:6px!important}.savings-panel,.potential-panel{padding:8px!important}.panel-top h2{font-size:14px!important;margin:3px 0 6px!important}.panel-top small{font-size:5px!important}.potential-panel h2{font-size:17px!important}
+  .coverage-row{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important;margin-top:7px!important}.coverage-card{padding:6px!important}.coverage-head{gap:4px!important}.coverage-head>span{width:26px!important;height:26px!important;font-size:11px!important}.coverage-card h3{font-size:8px!important}.coverage-card p,.coverage-card li{font-size:5.5px!important}.coverage-card ul{margin:6px 0!important;gap:3px!important}.coverage-card .btn{font-size:6px!important;padding:6px 2px!important}
+  .discount-bar{padding:8px!important;margin-top:7px!important}.discount-title h3{font-size:10px!important}.discount-title p{font-size:5.5px!important}.discount-checks button{font-size:5.5px!important;padding:5px 6px!important}.discount-message{font-size:5.5px!important}
 }
 </style>
 </head>
@@ -52,7 +71,7 @@
           <div class="zip-field"><span>⌖</span><input id="zipInput" inputmode="numeric" maxlength="5" autocomplete="postal-code" placeholder="Enter ZIP code · e.g. 33101"></div>
           <button class="btn primary" id="zipStart">Compare my rates →</button>
         </div>
-        <div class="hero-trust"><span>✓ No phone number to start</span><span>✓ Free to compare</span><span>✓ No hidden fees</span></div>
+        <div class="hero-trust"><span>✓ No phone number</span><span>✓ Free to compare</span><span>✓ No hidden fees</span></div>
       </div>
     </section>
 
@@ -153,6 +172,6 @@
       <div class="step-panel result" data-step="result"><span class="eyebrow">PROFILE INSIGHT — NOT A QUOTE</span><h2>Your comparison profile is ready.</h2><div class="result-box"><div><span>ZIP</span><b id="rZip">—</b></div><div><span>Coverage</span><b id="rCoverage">—</b></div><div><span>Record</span><b id="rRecord">—</b></div></div><div class="pressure-card"><span>Profile signal</span><b id="ratePressure">—</b><p id="pressureText">Educational only.</p></div><div id="resultReasons" class="result-reasons"></div><div class="result-warning"><b>Why the final price may change</b><p>Carrier underwriting may use driving history, claims history, insurance history, vehicle details and other state-permitted rating factors.</p></div><button class="btn primary" id="partnerBtn" disabled>Live partner quotes opening soon</button><small>No insurer price is generated or guaranteed by AutoRateFinder.</small></div>
     </div>
   </div>
-  <script src="app.js?v=20260911-2230"></script>
+  <script src="app.js?v=20260911-2240"></script>
 </body>
 </html>
