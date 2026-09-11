@@ -3,137 +3,140 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="description" content="Compare U.S. car insurance with clear quote-status labels, like-for-like coverage, discount scanning and a no-phone-number start.">
+  <meta name="description" content="Compare U.S. car insurance with transparent quote labels, potential savings examples, coverage matching and a no-phone-number start.">
   <meta name="robots" content="index,follow,max-image-preview:large">
-  <meta property="og:title" content="AutoRateFinder — Smarter U.S. Car Insurance Comparison">
-  <meta property="og:description" content="One form. Clear quote status. Same coverage compared fairly. No phone number required to start.">
+  <meta property="og:title" content="AutoRateFinder — Compare Car Insurance Smarter">
+  <meta property="og:description" content="See potential savings, compare like-for-like coverage and start without giving a phone number.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://martinus998.github.io/AutoRateFinder/">
-  <title>AutoRateFinder — Smarter Car Insurance Comparison</title>
+  <title>AutoRateFinder — Smarter U.S. Car Insurance Comparison</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="top-strip"><span class="pulse"></span><strong>U.S. CAR INSURANCE COMPARISON</strong><span>Preview mode • no phone number required to start</span></div>
+  <div class="top-strip"><span class="pulse"></span><strong>U.S. CAR INSURANCE COMPARISON</strong><span>Preview • No phone number required to start</span></div>
 
   <header class="site-header">
     <a class="brand" href="#top" aria-label="AutoRateFinder home">
       <span class="brand-mark">AR</span>
       <span><strong>AutoRateFinder</strong><small>Compare smarter. Stay in control.</small></span>
     </a>
-    <nav>
-      <a href="#dashboard">Compare</a><a href="#savings">Savings</a><a href="#drivers">Driver types</a><a href="#faq">FAQ</a>
-    </nav>
+    <nav><a href="#savings">Savings</a><a href="#compare">Compare</a><a href="#drivers">Driver types</a><a href="#faq">FAQ</a></nav>
     <button class="btn ghost js-start">Compare rates</button>
   </header>
 
   <main id="top">
-    <section class="hero shell">
-      <div class="hero-copy">
-        <div class="eyebrow">BUILT FOR U.S. DRIVERS</div>
-        <h1>Find a better car insurance fit <span>without the quote-site games.</span></h1>
-        <p class="lead">Start with your ZIP code, compare the same coverage fairly, check discount opportunities and see exactly whether a result is a live quote, estimate or sponsored placement.</p>
-        <div class="hero-actions"><button class="btn primary js-start">Compare my options →</button><a class="btn secondary" href="#dashboard">See the dashboard</a></div>
-        <div class="trust-row"><span>✓ Free to compare</span><span>✓ No obligation</span><span>✓ No phone number to start</span><span>✓ No fake live prices</span></div>
+    <section class="hero-shell shell">
+      <div class="hero-top">
+        <div class="hero-copy">
+          <span class="eyebrow">BUILT FOR U.S. DRIVERS</span>
+          <h1>Compare car insurance and see <span>where you could save.</span></h1>
+          <p>One clear comparison flow for price, coverage, deductible and discounts — without forcing you to give a phone number first.</p>
+          <div class="hero-actions"><button class="btn primary js-start">Compare my options →</button><a class="btn secondary" href="#savings">See savings example</a></div>
+          <div class="trust-row"><span>✓ Free to compare</span><span>✓ No obligation</span><span>✓ No phone field to start</span><span>✓ No fake live quotes</span></div>
+        </div>
+
+        <aside class="quick-start">
+          <div class="quick-head"><div><span class="eyebrow">START HERE</span><h2>Build your comparison</h2></div><span class="secure-dot">● Secure preview</span></div>
+          <label for="zipInput">ZIP code</label>
+          <div class="zip-row"><input id="zipInput" inputmode="numeric" maxlength="5" autocomplete="postal-code" placeholder="e.g. 33101"><button class="btn primary" id="zipStart">Start</button></div>
+          <div class="quick-goals"><button data-goal="minimum">Lowest legal</button><button data-goal="value">Best value</button><button data-goal="full">Full coverage</button></div>
+          <small>Final insurer prices will come only from licensed providers or partners when live connections are active.</small>
+        </aside>
       </div>
 
-      <aside class="quote-card" aria-label="Start comparison">
-        <div class="quote-head"><div><span class="mini-label">QUICK START</span><h2>Build your comparison</h2></div><span class="shield">🛡</span></div>
-        <label for="zipInput">ZIP code</label>
-        <div class="zip-row"><input id="zipInput" inputmode="numeric" maxlength="5" autocomplete="postal-code" placeholder="e.g. 33101"><button class="btn primary" id="zipStart">Start</button></div>
-        <div class="quick-goals"><button data-goal="minimum">Lowest legal</button><button data-goal="value">Best value</button><button data-goal="full">Full coverage</button></div>
-        <div class="micro-trust"><span>🔒 Browser-first preview</span><span>📵 No phone field</span></div>
-        <div class="quote-note">Final insurer prices will come only from licensed partners when live connections are active.</div>
-      </aside>
-    </section>
+      <div id="savings" class="savings-board">
+        <div class="savings-table-wrap">
+          <div class="section-kicker"><div><span class="eyebrow">ILLUSTRATIVE SAVINGS EXAMPLE</span><h2>See the difference side by side.</h2></div><span class="example-badge">Example only • Not a quote</span></div>
+          <div class="savings-table">
+            <div class="savings-row savings-head"><span>Option</span><span>Monthly</span><span>Coverage</span><span>Difference</span></div>
+            <div class="savings-row"><span><b>Current plan</b><small>Illustrative baseline</small></span><span class="price">$160</span><span>Full coverage</span><span>—</span></div>
+            <div class="savings-row highlight"><span><b>Better-value example</b><small>Same coverage target</small></span><span class="price">$128</span><span>Full coverage</span><span class="save">Save $32/mo</span></div>
+            <div class="savings-row"><span><b>Alternative example</b><small>Different carrier fit</small></span><span class="price">$136</span><span>Full coverage</span><span class="save">Save $24/mo</span></div>
+          </div>
+          <p class="fineprint">Illustrative comparison only. $160 → $128 equals $32/month or $384/year in this example. Actual prices and savings vary by state, insurer, driver profile and coverage.</p>
+        </div>
 
-    <section id="dashboard" class="dashboard shell">
-      <div class="stats-panel card">
-        <div class="panel-head"><div><span class="eyebrow">COMPARISON DASHBOARD</span><h2>What matters, visible immediately.</h2></div><span class="status-pill">Preview</span></div>
-        <div class="ring-grid">
-          <div class="ring-card"><div class="ring r0"><div><strong>0</strong><span>phone fields</span></div></div><p>No phone number required to start.</p></div>
-          <div class="ring-card"><div class="ring r3"><div><strong>3</strong><span>coverage modes</span></div></div><p>Minimum, best value and full coverage.</p></div>
-          <div class="ring-card"><div class="ring r3b"><div><strong>3</strong><span>quote labels</span></div></div><p>Live, estimate and sponsored are separated.</p></div>
-          <div class="ring-card"><div class="ring r6"><div><strong>6</strong><span>profile steps</span></div></div><p>A focused flow instead of a giant form.</p></div>
+        <div class="savings-visuals" aria-label="Illustrative savings charts">
+          <div class="big-ring ring-save"><div><strong>$384</strong><span>yearly difference</span><small>illustrative</small></div></div>
+          <div class="mini-rings">
+            <div class="metric-ring ring-month"><div><strong>$32</strong><span>/ month</span></div></div>
+            <div class="metric-ring ring-percent"><div><strong>20%</strong><span>lower in example</span></div></div>
+            <div class="metric-ring ring-phone"><div><strong>0</strong><span>phone fields</span></div></div>
+          </div>
+          <div class="bar-compare">
+            <div><span>Current example</span><i><b style="width:100%"></b></i><strong>$160</strong></div>
+            <div><span>Better-value example</span><i><b style="width:80%"></b></i><strong>$128</strong></div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <div class="coverage-panel card">
-        <div class="panel-head"><div><span class="eyebrow">CHOOSE YOUR GOAL</span><h2>Compare the right policy.</h2></div></div>
-        <div class="coverage-compact">
-          <button class="goal-card js-start" data-goal="minimum"><span>$</span><div><b>Lowest legal</b><small>State-minimum focus</small></div><i>→</i></button>
-          <button class="goal-card featured js-start" data-goal="value"><span>★</span><div><b>Best value</b><small>Price + protection balance</small></div><i>→</i></button>
-          <button class="goal-card js-start" data-goal="full"><span>◆</span><div><b>Full coverage</b><small>Collision + comprehensive focus</small></div><i>→</i></button>
+    <section class="three-up shell" aria-label="Main AutoRateFinder advantages">
+      <article><span>01</span><div><b>Compare the same coverage</b><small>See price differences without hiding weaker limits or a larger deductible.</small></div></article>
+      <article><span>02</span><div><b>Know what every price is</b><small>Live quote, estimate and sponsored placement are clearly separated.</small></div></article>
+      <article><span>03</span><div><b>Find possible discounts</b><small>Check low mileage, bundling, telematics, student and other categories.</small></div></article>
+    </section>
+
+    <section id="compare" class="workbench shell">
+      <div class="work-card coverage-card">
+        <div class="card-title"><span class="eyebrow">COVERAGE GOAL</span><h2>Choose what matters most.</h2></div>
+        <div class="coverage-grid">
+          <button class="coverage-choice js-start" data-goal="minimum"><span>$</span><b>Lowest legal</b><small>State-minimum focus</small></button>
+          <button class="coverage-choice featured js-start" data-goal="value"><span>★</span><b>Best value</b><small>Balance price + protection</small></button>
+          <button class="coverage-choice js-start" data-goal="full"><span>◆</span><b>Full coverage</b><small>Collision + comprehensive</small></button>
         </div>
         <div class="quote-key"><span class="quote-status live">LIVE QUOTE</span><span class="quote-status estimate">ESTIMATE</span><span class="quote-status sponsored">SPONSORED</span></div>
       </div>
-    </section>
 
-    <section class="compact-grid shell">
-      <article class="feature-card card">
-        <div class="feature-icon">⚖</div><div><span class="eyebrow">FAIR COMPARISON</span><h3>Same coverage, side by side.</h3><p>A cheap number means little if the limits or deductible are worse. We keep the comparison focused on like-for-like protection.</p></div>
-      </article>
-      <article class="feature-card card">
-        <div class="feature-icon">🏷</div><div><span class="eyebrow">CLEAR PRICE STATUS</span><h3>Know what the number really is.</h3><p>Future results are labeled live quote, estimate or sponsored so marketing never looks like an approved insurer price.</p></div>
-      </article>
-      <article class="feature-card card">
-        <div class="feature-icon">🧭</div><div><span class="eyebrow">SWITCH SMARTER</span><h3>Avoid accidental coverage gaps.</h3><p>Confirm the new effective date, save proof of insurance, then cancel the old policy only after replacement coverage is active.</p></div>
-      </article>
-    </section>
-
-    <section id="savings" class="tools shell">
-      <div class="tool-card card">
-        <div class="panel-head"><div><span class="eyebrow">DISCOUNT SCANNER</span><h2>Check what may apply.</h2></div><div class="score-bubble"><strong id="discountScore">0</strong><span>selected</span></div></div>
-        <p class="muted">These are potential categories only. A carrier must confirm eligibility and amount.</p>
+      <div class="work-card discount-card">
+        <div class="card-title"><span class="eyebrow">DISCOUNT SCANNER</span><h2>What may apply to you?</h2></div>
+        <div class="discount-top"><div class="discount-ring"><strong id="discountScore">0</strong><span>selected</span></div><p id="discountMessage">Choose anything that may apply. A carrier must confirm eligibility.</p></div>
         <div class="discount-checks" id="discountChecks"><button data-discount="low-mileage">Low mileage</button><button data-discount="bundle">Home + auto</button><button data-discount="multi-car">Multiple cars</button><button data-discount="student">Good student</button><button data-discount="telematics">Telematics</button><button data-discount="paid-full">Pay in full</button><button data-discount="defensive">Defensive driving</button><button data-discount="anti-theft">Anti-theft</button></div>
-        <p id="discountMessage" class="tool-note">Choose anything that may apply to you.</p>
       </div>
 
-      <div class="tool-card card">
-        <div class="panel-head"><div><span class="eyebrow">DEDUCTIBLE EXPLAINER</span><h2>See the trade-off.</h2></div><strong class="deductible-value" id="deductibleValue">$500</strong></div>
+      <div class="work-card deductible-card">
+        <div class="card-title row-title"><div><span class="eyebrow">DEDUCTIBLE</span><h2>See the trade-off.</h2></div><strong id="deductibleValue">$500</strong></div>
         <input id="deductibleSlider" type="range" min="0" max="3" step="1" value="1">
         <div class="range-labels"><span>$250</span><span>$500</span><span>$1,000</span><span>$2,000</span></div>
-        <div class="tool-note" id="deductibleNote">A common middle ground between premium and out-of-pocket exposure. Compare the same deductible across carriers.</div>
+        <div class="deductible-note" id="deductibleNote">A common middle ground between premium and out-of-pocket exposure. Compare the same deductible across carriers.</div>
+        <button class="btn secondary js-start">Use this in my comparison</button>
       </div>
     </section>
 
-    <section id="drivers" class="driver-zone shell card">
-      <div class="panel-head"><div><span class="eyebrow">START FROM YOUR SITUATION</span><h2>Skip generic advice.</h2></div><p class="muted">Choose the profile closest to you and we pre-shape the comparison.</p></div>
+    <section id="drivers" class="driver-panel shell">
+      <div class="driver-heading"><div><span class="eyebrow">SHOP FOR YOUR SITUATION</span><h2>Start from the reason your rate may be different.</h2></div><button class="btn secondary js-start">Start standard comparison</button></div>
       <div class="driver-grid">
         <a class="js-start" href="#quote" data-profile="young"><b>Young driver</b><span>Age-sensitive shopping</span></a>
         <a class="js-start" href="#quote" data-profile="accident"><b>Recent accident</b><span>Claims can change carrier fit</span></a>
         <a class="js-start" href="#quote" data-profile="ticket"><b>Speeding ticket</b><span>Violation-aware search</span></a>
         <a class="js-start" href="#quote" data-profile="sr22"><b>SR-22 / high-risk</b><span>Special filing needs</span></a>
-        <a class="js-start" href="#quote" data-profile="low-mileage"><b>Low mileage</b><span>Discount opportunity</span></a>
+        <a class="js-start" href="#quote" data-profile="low-mileage"><b>Low mileage</b><span>Possible discount path</span></a>
         <a class="js-start" href="#quote" data-profile="bundle"><b>Auto + home</b><span>Bundle opportunity</span></a>
         <a class="js-start" href="#quote" data-profile="financed"><b>Financed / leased</b><span>Full-coverage focus</span></a>
         <a class="js-start" href="#quote" data-profile="senior"><b>Senior driver</b><span>Coverage + discount review</span></a>
       </div>
     </section>
 
-    <section class="trust-zone shell">
-      <div class="privacy-card card">
-        <div><span class="eyebrow">PRIVACY-FIRST</span><h2>Know before anything is shared.</h2><p>Preview mode stays in your browser. Future partner handoffs will require a clear disclosure of what data is sent and to whom.</p></div>
-        <div class="privacy-list"><span>📵 No phone number to start</span><span>✅ Consent before partner handoff</span><span>🏷 Sponsored placements labeled</span><span>🔐 Private credentials stay server-side</span></div>
+    <section class="bottom-grid shell">
+      <div class="trust-card">
+        <span class="eyebrow">PRIVACY + TRUST</span><h2>Stay in control before anything is shared.</h2>
+        <div class="trust-mini-grid"><span>📵 No phone number to start</span><span>✅ Consent before partner handoff</span><span>🏷 Sponsored placements labeled</span><span>🔐 Private credentials stay server-side</span></div>
         <div class="mini-links"><a href="privacy.html">Privacy notice</a><a href="terms.html">Terms</a><a href="disclosure.html">How we make money</a></div>
       </div>
-
-      <div id="faq" class="faq-card card">
+      <div id="faq" class="faq-card">
         <span class="eyebrow">QUICK FAQ</span><h2>Before you compare.</h2>
-        <div class="faq-list">
-          <details><summary>Does AutoRateFinder sell insurance?</summary><p>No. It is a comparison/referral technology project. Final quotes and policies must come from appropriately licensed providers or partners.</p></details>
-          <details><summary>Are prices live right now?</summary><p>Not yet. Live carrier connections are pending. We do not invent insurer prices.</p></details>
-          <details><summary>Do I need to enter my phone number?</summary><p>No phone number is required to start the preview flow.</p></details>
-          <details><summary>Will every insurer be included?</summary><p>No service can guarantee every carrier. Results depend on partner availability, state and driver profile.</p></details>
-        </div>
+        <details><summary>Are the prices live right now?</summary><p>Not yet. Live carrier connections are pending. We do not invent insurer prices.</p></details>
+        <details><summary>Do I need to enter my phone number?</summary><p>No phone number is required to start the preview flow.</p></details>
+        <details><summary>Will every insurer be included?</summary><p>No service can guarantee every carrier. Results depend on partner availability, state and driver profile.</p></details>
       </div>
     </section>
 
-    <section class="cta-band shell"><div><span class="eyebrow">READY?</span><h2>Build your car-insurance comparison profile.</h2><p>Start with ZIP code. Keep control of your data. Compare the right things.</p></div><button class="btn primary js-start">Compare my options →</button></section>
+    <section class="cta-band shell"><div><span class="eyebrow">READY TO COMPARE?</span><h2>Build your car-insurance profile now.</h2><p>Start with ZIP code, keep control of your data and compare the right things.</p></div><button class="btn primary js-start">Compare my options →</button></section>
   </main>
 
   <footer>
-    <div class="shell footer-grid"><div><div class="brand footer-brand"><span class="brand-mark">AR</span><span><strong>AutoRateFinder</strong><small>Compare smarter. Stay in control.</small></span></div><p>Independent comparison technology for U.S. drivers.</p></div><div><b>Explore</b><a href="#dashboard">Compare</a><a href="#savings">Savings tools</a><a href="#drivers">Driver types</a></div><div><b>Legal</b><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="disclosure.html">Affiliate disclosure</a></div><div><b>Status</b><span>Comparison preview: active</span><span>Live carrier connections: pending</span></div></div>
-    <div class="shell legal-note">AutoRateFinder is not an insurance company, insurance agency or insurance producer and does not underwrite, bind, sell, solicit or negotiate insurance. Final insurance quotes and policies must be offered by appropriately licensed providers or partners. Availability, eligibility, pricing, discounts and coverage vary by state, insurer and applicant. © 2026 AutoRateFinder.</div>
+    <div class="shell footer-grid"><div><div class="brand footer-brand"><span class="brand-mark">AR</span><span><strong>AutoRateFinder</strong><small>Compare smarter. Stay in control.</small></span></div><p>Independent comparison technology for U.S. drivers.</p></div><div><b>Explore</b><a href="#savings">Savings example</a><a href="#compare">Compare</a><a href="#drivers">Driver types</a></div><div><b>Legal</b><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a><a href="disclosure.html">Affiliate disclosure</a></div><div><b>Status</b><span>Comparison preview: active</span><span>Live carrier connections: pending</span></div></div>
+    <div class="shell legal-note">AutoRateFinder is not an insurance company, insurance agency or insurance producer and does not underwrite, bind, sell, solicit or negotiate insurance. Final insurance quotes and policies must be offered by appropriately licensed providers or partners. The savings figures shown on this page are illustrative examples, not quotes or guarantees. Availability, eligibility, pricing, discounts and coverage vary by state, insurer and applicant. © 2026 AutoRateFinder.</div>
   </footer>
 
   <div class="modal" id="quoteModal" aria-hidden="true">
@@ -152,12 +155,12 @@
 
       <div class="step-panel" data-step="5"><span class="eyebrow">STEP 5 OF 6</span><h2>What are you shopping for?</h2><div class="choice-grid" data-field="coverage"><button data-value="minimum">Lowest legal coverage</button><button data-value="value">Best value</button><button data-value="full">Full coverage</button><button data-value="unsure">Help me understand</button></div><button class="btn primary next-step">Continue</button></div>
 
-      <div class="step-panel" data-step="6"><span class="eyebrow">STEP 6 OF 6</span><h2>Any possible discounts?</h2><p>Select anything that may apply. A carrier must confirm eligibility.</p><div class="multi-choice" id="modalDiscounts"><button>Low mileage</button><button>Home + auto</button><button>Multiple cars</button><button>Good student</button><button>Telematics</button><button>Pay in full</button></div><button class="btn primary" id="finishQuote">Build my profile insight</button></div>
+      <div class="step-panel" data-step="6"><span class="eyebrow">STEP 6 OF 6</span><h2>Potential discount categories?</h2><p>Select anything that may apply. These do not guarantee a discount.</p><div class="multi-choice" id="modalDiscounts"><button>Low mileage</button><button>Home + auto</button><button>Multiple cars</button><button>Good student</button><button>Telematics</button><button>Pay in full</button></div><button class="btn primary" id="finishQuote">Show my profile insight</button></div>
 
-      <div class="step-panel result" data-step="result"><span class="quote-status estimate">PROFILE INSIGHT — NOT A QUOTE</span><h2>Your comparison profile is ready.</h2><div class="result-box"><div><span>ZIP</span><b id="rZip">—</b></div><div><span>Coverage</span><b id="rCoverage">—</b></div><div><span>Record</span><b id="rRecord">—</b></div></div><div class="pressure-card"><span>Educational pricing signal</span><b id="ratePressure">—</b><p id="pressureText">—</p></div><div class="result-reasons" id="resultReasons"></div><div class="result-warning"><b>Why a final price can change</b><p>Insurers may verify driving history, claims, insurance history and other legally permitted rating factors before issuing or binding a quote.</p></div><button class="btn primary" id="partnerBtn" disabled>Live partner quotes opening soon</button><small>No real insurer price is generated until a licensed partner connection is active.</small></div>
+      <div class="step-panel result" data-step="result"><span class="quote-status estimate">PROFILE INSIGHT • NOT A QUOTE</span><h2>Your comparison profile is ready.</h2><div class="result-box"><div><span>ZIP</span><b id="rZip">—</b></div><div><span>Coverage goal</span><b id="rCoverage">—</b></div><div><span>Driving record</span><b id="rRecord">—</b></div></div><div class="pressure-card"><span>Educational pricing signal</span><b id="ratePressure">—</b><p id="pressureText">This is not an insurer quote.</p></div><div class="result-reasons" id="resultReasons"></div><div class="result-warning"><b>Why could a final price change?</b><p>A licensed insurer may verify driving history, claims, insurance history, vehicle information and other legally permitted underwriting factors.</p></div><button class="btn primary" id="partnerBtn" disabled>Live partner quotes opening soon</button><small>We do not invent live insurer prices. Final quote availability depends on licensed partners.</small></div>
     </div>
   </div>
 
-  <script src="app.js" defer></script>
+  <script src="app.js"></script>
 </body>
 </html>
