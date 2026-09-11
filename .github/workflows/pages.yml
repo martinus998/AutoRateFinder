@@ -32,8 +32,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p _site
-          cp home-v2.html _site/index.html
-          cp home-v2.css home-v2.js app.js robots.txt sitemap.xml privacy.html terms.html disclosure.html _site/
+          cp index.html style.css app.js robots.txt sitemap.xml privacy.html terms.html disclosure.html _site/
           if compgen -G 'google*.html' > /dev/null; then cp google*.html _site/; fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa
