@@ -1,30 +1,32 @@
 # AutoRateFinder
 
-U.S.-focused car insurance comparison experience.
+U.S.-focused car insurance comparison experience built around trust, apples-to-apples coverage comparison, privacy-first intake and transparent quote status.
+
+## Product principles
+
+- No phone number required to start.
+- Clearly distinguish a live quote, an estimate and sponsored placement.
+- Compare matching coverage and deductibles instead of headline prices only.
+- Explain why a final carrier price can change.
+- Surface discount opportunities and deductible trade-offs.
+- Never present a made-up price as a real insurer quote.
+- No hidden telemarketing consent.
+- Disclose partner compensation and sponsored results.
+- Live purchase/referral goes only through appropriately licensed insurance partners.
 
 ## Current status
 
 - Public comparison preview UI
 - ZIP / driver / vehicle / coverage intake flow
-- No customer phone number required to start
-- No real insurer quote is generated until a licensed partner connection is added
-- No private API keys or customer PII belong in this repository
-- Search engine basics included (`robots.txt`, `sitemap.xml`)
-- GitHub Actions security audit included
+- Privacy-first quote flow
+- GitHub Actions security audit
+- SEO basics (`robots.txt`, `sitemap.xml`)
+- Live carrier/affiliate integration pending
+
+## Security boundary
+
+No private API keys, insurer credentials, payment secrets or customer PII belong in this public repository. Any future lead handoff containing personal information must go through a secure server-side backend with explicit consent and retention/deletion controls.
 
 ## Compliance boundary
 
-AutoRateFinder is not an insurance carrier, agency or producer and does not underwrite, bind, sell, solicit or negotiate insurance. Any live quote or policy purchase must be provided through appropriately licensed insurance partners.
-
-## Partner integration
-
-`app.js` contains a blank `PARTNER_URL`. Only a public partner/referral URL may be inserted client-side. Private carrier credentials, API keys, lead-routing secrets or sensitive customer data must be handled server-side.
-
-## Production roadmap
-
-1. Enable GitHub Pages.
-2. Add analytics and owner-test exclusion.
-3. Connect a licensed insurance comparison / affiliate partner.
-4. Add secure consented lead handoff through a backend if personal data is required.
-5. Add state-specific SEO landing pages and Search Console verification.
-6. Add privacy policy, terms and affiliate disclosure pages before live lead collection.
+AutoRateFinder is not an insurance carrier, agency or producer and does not underwrite, bind, sell, solicit or negotiate insurance. Final quotes and policies must be offered by appropriately licensed insurers, agencies or producers.
