@@ -1,10 +1,10 @@
 // AutoRateFinder analytics bootstrap.
-// Set GA_MEASUREMENT_ID to the public GA4 Measurement ID (format G-XXXXXXXXXX) after the GA4 web stream is created.
+// GA4 web stream for AutoRateFinder. Measurement IDs are public identifiers, not secrets.
 // Privacy rule: never send ZIP codes, names, email addresses, VINs, vehicle make/model, or other personal data in analytics events.
 (function () {
   'use strict';
 
-  const GA_MEASUREMENT_ID = '';
+  const GA_MEASUREMENT_ID = 'G-3TXCZ2HH99';
   const CONSENT_KEY = 'autoratefinder_analytics_consent_v1';
 
   function validMeasurementId(id) {
