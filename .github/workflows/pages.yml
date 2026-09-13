@@ -32,7 +32,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p _site
-          cp index.html style.css dense-v3.css app.js favicon.svg robots.txt sitemap.xml privacy.html terms.html disclosure.html compare-car-insurance.html car-insurance-discounts.html car-insurance-deductible-guide.html _site/
+          cp index.html style.css dense-v3.css app.js favicon.svg robots.txt sitemap.xml privacy.html terms.html disclosure.html compare-car-insurance.html car-insurance-discounts.html car-insurance-deductible-guide.html car-insurance-quotes.html cheap-car-insurance.html car-insurance-rates-by-zip-code.html full-coverage-car-insurance.html _site/
           python3 - <<'PY'
           from pathlib import Path
           import re
@@ -42,25 +42,30 @@ jobs:
           dense = '<link rel="stylesheet" href="dense-v3.css?v=20260913-original">'
           if dense not in s:
               s = s.replace('</head>', dense + '\n</head>')
-          s = re.sub(r'<title>.*?</title>', '<title>AutoRateFinder | Compare Car Insurance Options</title>', s, count=1, flags=re.S)
-          s = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Compare U.S. car insurance options, coverage levels, deductibles and possible discounts with a clear educational comparison preview.">', s, count=1)
+          s = re.sub(r'<title>.*?</title>', '<title>Compare Car Insurance | AutoRateFinder</title>', s, count=1, flags=re.S)
+          s = re.sub(r'<meta name="description" content="[^"]*">', '<meta name="description" content="Compare U.S. car insurance options by coverage, deductibles and possible discounts. Build a free comparison profile with no phone number required to start.">', s, count=1)
           seo = '\n'.join([
               '<meta name="robots" content="index,follow,max-image-preview:large">',
               '<link rel="canonical" href="https://martinus998.github.io/AutoRateFinder/">',
+              '<link rel="alternate" hreflang="en-us" href="https://martinus998.github.io/AutoRateFinder/">',
+              '<link rel="alternate" hreflang="x-default" href="https://martinus998.github.io/AutoRateFinder/">',
               '<link rel="icon" type="image/svg+xml" href="favicon.svg">',
               '<meta name="theme-color" content="#021426">',
               '<meta property="og:type" content="website">',
               '<meta property="og:site_name" content="AutoRateFinder">',
-              '<meta property="og:title" content="AutoRateFinder | Compare Car Insurance Options">',
-              '<meta property="og:description" content="Compare U.S. car insurance options, coverage, deductibles and possible discounts in a clear educational preview.">',
+              '<meta property="og:title" content="Compare Car Insurance | AutoRateFinder">',
+              '<meta property="og:description" content="Compare U.S. car insurance options, coverage, deductibles and possible discounts in a clear educational comparison preview.">',
               '<meta property="og:url" content="https://martinus998.github.io/AutoRateFinder/">',
               '<meta name="twitter:card" content="summary">',
-              '<meta name="twitter:title" content="AutoRateFinder | Compare Car Insurance Options">',
+              '<meta name="twitter:title" content="Compare Car Insurance | AutoRateFinder">',
               '<meta name="twitter:description" content="A clear U.S. car-insurance comparison preview with coverage, deductible and discount tools.">',
-              '<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"AutoRateFinder","url":"https://martinus998.github.io/AutoRateFinder/","description":"U.S.-focused educational car-insurance comparison technology."},{"@type":"WebApplication","name":"AutoRateFinder","url":"https://martinus998.github.io/AutoRateFinder/","applicationCategory":"FinanceApplication","operatingSystem":"Web","isAccessibleForFree":true},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Are these insurer prices live quotes?","acceptedAnswer":{"@type":"Answer","text":"No. The current insurer comparison is an illustrative demo until an appropriately licensed quote partner is connected."}},{"@type":"Question","name":"Do I need a phone number to start?","acceptedAnswer":{"@type":"Answer","text":"No phone number is required to start the current educational comparison preview."}},{"@type":"Question","name":"Does AutoRateFinder sell insurance?","acceptedAnswer":{"@type":"Answer","text":"No. AutoRateFinder is comparison and referral technology, not an insurer or licensed insurance producer."}}]}]}</script>'
+              '<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"Organization","name":"AutoRateFinder","url":"https://martinus998.github.io/AutoRateFinder/"},{"@type":"WebSite","name":"AutoRateFinder","url":"https://martinus998.github.io/AutoRateFinder/","description":"U.S.-focused educational car-insurance comparison technology.","inLanguage":"en-US"},{"@type":"WebApplication","name":"AutoRateFinder","url":"https://martinus998.github.io/AutoRateFinder/","applicationCategory":"FinanceApplication","operatingSystem":"Web","isAccessibleForFree":true},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Are these insurer prices live quotes?","acceptedAnswer":{"@type":"Answer","text":"No. The current insurer comparison is an illustrative demo until an appropriately licensed quote partner is connected."}},{"@type":"Question","name":"Do I need a phone number to start?","acceptedAnswer":{"@type":"Answer","text":"No phone number is required to start the current educational comparison preview."}},{"@type":"Question","name":"Does AutoRateFinder sell insurance?","acceptedAnswer":{"@type":"Answer","text":"No. AutoRateFinder is comparison and referral technology, not an insurer or licensed insurance producer."}}]}]}</script>'
           ])
           if 'rel="canonical" href="https://martinus998.github.io/AutoRateFinder/"' not in s:
               s = s.replace('</head>', seo + '\n</head>')
+          resources = '<span><a href="compare-car-insurance.html">Compare insurance</a> · <a href="car-insurance-quotes.html">Quotes guide</a> · <a href="cheap-car-insurance.html">Cheap car insurance</a> · <a href="car-insurance-rates-by-zip-code.html">Rates by ZIP</a> · <a href="full-coverage-car-insurance.html">Full coverage</a> · <a href="car-insurance-discounts.html">Discounts</a> · <a href="car-insurance-deductible-guide.html">Deductibles</a></span>'
+          if 'car-insurance-quotes.html' not in s:
+              s = s.replace('<span><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="disclosure.html">Affiliate disclosure</a></span>', resources + '<span><a href="privacy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="disclosure.html">Affiliate disclosure</a></span>')
           p.write_text(s, encoding='utf-8')
           for p in Path('_site').glob('*.html'):
               s = p.read_text(encoding='utf-8')
