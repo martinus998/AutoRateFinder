@@ -1,4 +1,9 @@
 (function(){
+  const dark=document.createElement('link');
+  dark.rel='stylesheet';
+  dark.href='dark-theme.css?v=20260913-dark1';
+  document.head.appendChild(dark);
+
   const tabs=[...document.querySelectorAll('.tab')];
   const panes={drivers:document.getElementById('driversPane'),privacy:document.getElementById('privacyPane'),faq:document.getElementById('faqPane')};
   tabs.forEach(tab=>tab.addEventListener('click',()=>{
