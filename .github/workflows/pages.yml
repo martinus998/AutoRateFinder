@@ -32,7 +32,7 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p _site
-          cp index.html style.css dense-v3.css app.js analytics.js favicon.svg robots.txt sitemap.xml privacy.html terms.html disclosure.html compare-car-insurance.html car-insurance-discounts.html car-insurance-deductible-guide.html car-insurance-quotes.html cheap-car-insurance.html car-insurance-rates-by-zip-code.html full-coverage-car-insurance.html _site/
+          cp index.html style.css dense-v3.css app.js analytics.js partner-integration.js favicon.svg robots.txt sitemap.xml privacy.html terms.html disclosure.html compare-car-insurance.html car-insurance-discounts.html car-insurance-deductible-guide.html car-insurance-quotes.html cheap-car-insurance.html car-insurance-rates-by-zip-code.html full-coverage-car-insurance.html _site/
           python3 - <<'PY'
           from pathlib import Path
           import re
@@ -75,6 +75,10 @@ jobs:
               analytics = '<script src="analytics.js" defer></script>'
               if 'src="analytics.js"' not in s:
                   s = s.replace('</head>', analytics + '\n</head>')
+              if p.name == 'index.html':
+                  partner = '<script src="partner-integration.js" defer></script>'
+                  if 'src="partner-integration.js"' not in s:
+                      s = s.replace('</head>', partner + '\n</head>')
               p.write_text(s, encoding='utf-8')
           legal = {
               'privacy.html': ('Privacy Notice | AutoRateFinder', 'How AutoRateFinder handles information in the current U.S. car-insurance comparison preview.', root + 'privacy.html'),
