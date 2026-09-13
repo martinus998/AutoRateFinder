@@ -32,14 +32,17 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p _site
-          cp index.html home-v2.css home-v2.js dark-theme.css app.js robots.txt sitemap.xml privacy.html terms.html disclosure.html compare-car-insurance.html car-insurance-discounts.html car-insurance-deductible-guide.html _site/
+          cp index.html home-v2.css home-v2.js dark-theme.css compact-mobile.css app.js robots.txt sitemap.xml privacy.html terms.html disclosure.html compare-car-insurance.html car-insurance-discounts.html car-insurance-deductible-guide.html _site/
           python3 - <<'PY'
           from pathlib import Path
           p = Path('_site/index.html')
           s = p.read_text(encoding='utf-8')
           dark = '<link rel="stylesheet" href="dark-theme.css?v=20260913-dark3">'
+          compact = '<link rel="stylesheet" href="compact-mobile.css?v=20260913-compact1">'
           if dark not in s:
               s = s.replace('</head>', f'  {dark}\n</head>')
+          if compact not in s:
+              s = s.replace('</head>', f'  {compact}\n</head>')
           p.write_text(s, encoding='utf-8')
           PY
           if compgen -G 'google*.html' > /dev/null; then cp google*.html _site/; fi
