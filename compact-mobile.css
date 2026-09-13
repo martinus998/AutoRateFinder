@@ -1,0 +1,47 @@
+@media (max-width:600px){
+  .wrap{width:min(100% - 12px,1180px)!important}
+  .topbar{min-height:32px!important;padding:5px 8px!important;font-size:8px!important;line-height:1.15!important;gap:6px!important;justify-content:space-between!important}
+  .topbar span{width:7px!important;height:7px!important}
+  header{height:58px!important;padding:0 8px!important;gap:8px!important}
+  .logo{width:42px!important;height:42px!important;border-radius:11px!important}
+  .brand{gap:8px!important}.brand strong{font-size:17px!important}.brand small{display:none!important}
+  header .btn{padding:9px 12px!important;font-size:9px!important;border-radius:11px!important}
+
+  .hero{grid-template-columns:1fr!important;gap:6px!important;padding:7px 0 6px!important}
+  .hero-main{padding:15px!important;border-radius:16px!important}
+  .eyebrow{font-size:7px!important;letter-spacing:.13em!important}
+  .hero h1{font-size:29px!important;line-height:.96!important;letter-spacing:-.045em!important;margin:6px 0 8px!important}
+  .hero h1 em{display:block!important}
+  .hero p{font-size:9px!important;line-height:1.35!important;margin:0!important;max-width:none!important}
+  .startbox{grid-template-columns:1fr auto!important;gap:6px!important;margin-top:11px!important;align-items:end!important}
+  .startbox label{font-size:8px!important;gap:4px!important}
+  .startbox input{padding:9px 10px!important;font-size:9px!important;border-radius:9px!important}
+  .startbox .btn{padding:9px 10px!important;font-size:8px!important;white-space:nowrap!important}
+  .trust{gap:7px!important;margin-top:8px!important;font-size:6.8px!important;line-height:1.15!important}
+
+  .save-card{padding:12px!important;border-radius:16px!important}
+  .save-head{gap:8px!important}.save-head h2{font-size:17px!important;line-height:1.04!important;margin-top:3px!important}
+  .example-badge{padding:4px 6px!important;font-size:6px!important}
+  .before-after{gap:5px!important;margin:9px 0 8px!important}
+  .before-after>div{padding:8px!important;border-radius:10px!important}.before-after span{font-size:6.5px!important}.before-after strong{font-size:13px!important}
+  .rings{gap:5px!important}.ring{width:56px!important;height:56px!important}.ring:before{inset:5px!important}.ring strong{font-size:12px!important}.ring span{font-size:5.5px!important}
+  .disclaimer{font-size:6px!important;line-height:1.3!important;margin-top:7px!important}
+
+  .top-cards{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:5px!important}
+  .option-card{padding:7px 6px!important;grid-template-columns:26px 1fr!important;gap:5px!important;border-radius:12px!important;min-height:67px!important}
+  .option-card .icon{width:26px!important;height:26px!important;border-radius:8px!important}.option-card small{font-size:5px!important}.option-card b{font-size:8px!important}.option-card p{font-size:5.5px!important;line-height:1.15!important}.option-card i{display:none!important}
+
+  .proof-row{grid-template-columns:repeat(4,minmax(0,1fr))!important;margin-top:6px!important;border-radius:12px!important}
+  .proof-row>div{padding:7px 5px!important}.proof-row b{font-size:7px!important}.proof-row span{font-size:5px!important;line-height:1.15!important}
+
+  .dashboard{gap:6px!important;margin-top:6px!important}.panel{padding:11px!important;border-radius:14px!important}.panel h2{font-size:18px!important}.panel-title{gap:8px!important}.pill{padding:4px 6px!important;font-size:6px!important}
+  .lab-grid{grid-template-columns:1fr 1fr!important;gap:6px!important;margin-top:8px!important}.lab-grid>div{padding:8px!important}.lab-grid h3{font-size:9px!important;margin-bottom:6px!important}.discounts{gap:4px!important}.discounts button,.multi-choice button{padding:5px 6px!important;font-size:6px!important}.scoreline{margin-top:6px!important;gap:6px!important}.scoreline strong{width:28px!important;height:28px!important;font-size:10px!important}.scoreline span{font-size:6px!important}.deduct-head{font-size:6px!important}.deduct-head strong{font-size:11px!important}.lab-grid input[type="range"]{margin:10px 0 3px!important}.ticks{font-size:5px!important}.note{padding:6px!important;font-size:5.8px!important;margin-top:6px!important}
+  .side h2{margin-bottom:8px!important}.stack{gap:4px!important}.stack>div{grid-template-columns:25px 1fr!important;gap:6px!important;padding:6px!important}.stack>div>b{width:25px!important;height:25px!important;font-size:7px!important}.stack span strong{font-size:7px!important}.stack span small{font-size:5.5px!important}
+
+  .tabshell{margin-top:6px!important;border-radius:14px!important}.tab{padding:8px!important;font-size:7px!important}.tabpane{padding:8px!important}.driver-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:4px!important}.driver-grid a,.privacy-grid>div{padding:7px!important}.driver-grid b,.privacy-grid b{font-size:7px!important}.driver-grid span,.privacy-grid span{font-size:5.3px!important}.privacy-grid{grid-template-columns:repeat(2,1fr)!important;gap:4px!important}.faq-grid{grid-template-columns:1fr 1fr!important;gap:4px!important}.faq-grid details{padding:0 7px!important}.faq-grid summary{font-size:7px!important;padding:7px 0!important}.faq-grid p{font-size:5.8px!important;margin-bottom:7px!important}
+
+  .final-cta{margin-top:6px!important;margin-bottom:10px!important;padding:10px!important;border-radius:14px!important}.final-cta h2{font-size:15px!important}.final-cta .btn{font-size:7px!important;padding:8px 9px!important}
+  .footer{gap:8px!important;padding:12px 0!important}.footer>div:nth-child(2){gap:7px!important;font-size:6px!important}.footer p{font-size:5.5px!important}
+
+  .modal-card{padding:16px!important}.step-panel h2{font-size:19px!important}.choice-grid button{padding:8px!important;font-size:8px!important}
+}
