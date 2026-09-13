@@ -1,0 +1,25 @@
+:root{--navy:#021426;--navy2:#031b33;--panel:#061b33;--panel2:#082545;--line:#176b9e;--text:#f7fbff;--muted:#9db5ca;--green:#37e4a8;--cyan:#3daeff}
+html,body{background:radial-gradient(circle at 86% 8%,rgba(43,114,255,.22),transparent 28%),radial-gradient(circle at 10% 20%,rgba(31,226,167,.13),transparent 24%),linear-gradient(180deg,#021426 0%,#031b33 48%,#021225 100%)!important;color:var(--text)!important}
+.topbar{background:#03162a!important;color:#bfd2e2!important;border-bottom:1px solid rgba(66,167,235,.18)}
+header{background:rgba(2,18,39,.96)!important;border-bottom:1px solid rgba(66,167,235,.25)!important;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.brand strong{color:#f7fbff!important}.brand small{color:#a9c0d2!important}nav{color:#d9e8f3!important}.btn.outline{background:#071f3d!important;border-color:#2e6f9b!important;color:#f7fbff!important}
+.hero-main,.save-card,.option-card,.proof-row,.panel,.tabshell,.final-cta{background:linear-gradient(180deg,#071f3d 0%,#04172d 100%)!important;color:#f7fbff!important;border-color:rgba(55,174,255,.34)!important;box-shadow:0 18px 48px rgba(0,0,0,.28),0 0 26px rgba(35,154,255,.06)!important}
+.hero-main{background:radial-gradient(circle at 78% 22%,rgba(61,174,255,.16),transparent 28%),linear-gradient(135deg,#061b35 0%,#03172c 100%)!important}
+.hero p,.trust,.disclaimer,.option-card p,.proof-row span,.panel p,.stack span small,.driver-grid span,.privacy-grid span,.faq-grid p,.footer p{color:#9db5ca!important}
+.save-card small,.panel small,.final-cta small,.step-panel>small,.eyebrow{color:#63e7bd!important}
+.save-head h2,.panel h2,.final-cta h2,.option-card b,.proof-row b,.driver-grid b,.privacy-grid b{color:#f7fbff!important}
+.example-badge,.pill{background:rgba(55,228,168,.09)!important;border-color:rgba(85,237,191,.42)!important;color:#70f0c7!important}
+.before-after>div,.lab-grid>div,.stack>div,.driver-grid a,.privacy-grid>div,.faq-grid details,.result-box>div{background:#061b33!important;border-color:rgba(82,153,199,.26)!important;color:#f7fbff!important}
+.before-after span,.result-box span,.pressure span,.deduct-head,.ticks{color:#8faabd!important}
+.before-after strong,.result-box b,.deduct-head strong{color:#f7fbff!important}
+.ring:before{background:#061b33!important}.ring span{color:#9db5ca!important}
+.option-card .icon{background:#082b45!important;color:#55e8b7!important}.option-card.best{border-color:#39dca8!important;box-shadow:0 14px 34px rgba(22,201,141,.12)!important}
+.proof-row>div{border-color:rgba(82,153,199,.22)!important}
+.discounts button,.multi-choice button{background:#071f3d!important;border-color:#2a5d7d!important;color:#cfe0ec!important}.discounts button.selected,.multi-choice button.selected{background:rgba(55,228,168,.13)!important;border-color:#43d7a4!important;color:#71efc7!important}
+.scoreline strong{background:#092947!important;color:#69ebc1!important}.scoreline span{color:#9db5ca!important}
+.note{background:#061b33!important;border-color:rgba(82,153,199,.28)!important;color:#9db5ca!important}
+.tabs{border-color:rgba(82,153,199,.22)!important}.tab{background:#061b33!important;color:#8faabd!important}.tab.active{background:#09233f!important;color:#f7fbff!important;box-shadow:inset 0 -2px 0 #37e4a8!important}
+.final-cta{background:linear-gradient(135deg,#071f3d,#0b3156)!important}
+footer{background:#021225!important;border-color:rgba(66,167,235,.2)!important}.footer>div:nth-child(2){color:#b6cada!important}.footer .brand strong{color:#f7fbff!important}
+.modal-card{background:#04172d!important;color:#f7fbff!important;border:1px solid rgba(55,174,255,.3)!important}.modal-card input{background:#061b33!important;color:#f7fbff!important;border-color:#2b6285!important}.choice-grid button{background:#061b33!important;border-color:#2a5d7d!important;color:#d5e5ef!important}.choice-grid button.selected{background:rgba(55,228,168,.12)!important;border-color:#4bdcaf!important;color:#72f0c8!important}.pressure{background:rgba(55,228,168,.09)!important;border-color:rgba(85,237,191,.35)!important}.pressure b{color:#69e9bf!important}.pressure p{color:#a7c2b8!important}.reasons div{background:#061b33!important;border-color:rgba(82,153,199,.26)!important;color:#b9cede!important}
+@media(max-width:600px){header{background:rgba(2,18,39,.98)!important}.hero{padding-top:8px}.save-card,.option-card,.proof-row,.panel,.tabshell{box-shadow:0 12px 28px rgba(0,0,0,.25)!important}}
