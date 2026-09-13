@@ -19,9 +19,16 @@ U.S.-focused car insurance comparison experience built around trust, apples-to-a
 - Public comparison preview UI
 - ZIP / driver / vehicle / coverage intake flow
 - Privacy-first quote flow
+- Consent-aware GA4 analytics
+- Google Search Console / sitemap / SEO tracking
 - GitHub Actions security audit
-- SEO basics (`robots.txt`, `sitemap.xml`)
-- Live carrier/affiliate integration pending
+- Partner integration adapter prepared in fail-closed `pending` mode
+- Secure server-side partner proxy template prepared for partner API mapping
+- Live carrier/affiliate approval and credentials still pending
+
+## Partner integration
+
+See `PARTNER_INTEGRATION.md` for the activation checklist and browser/proxy contract. The public site remains in preview mode until a licensed quote partner is approved and the final integration passes test-mode validation.
 
 ## Security boundary
 
