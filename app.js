@@ -1,41 +1,49 @@
-// AutoRateFinder public comparison preview.
-// SECURITY: Never place private insurer credentials, API keys or customer PII in this file.
-// Live quote and lead integrations must be handled server-side through licensed partners.
+// AutoRateFinder quote flow.
+// SECURITY: Never place insurer credentials, API keys or customer PII in this public file.
+// Live quote integrations must be handled server-side through an appropriately licensed partner.
 (function () {
   'use strict';
 
-  const PARTNER_URL = '';
+  // Point this to a secure server endpoint once the licensed quote partner is connected.
+  // Expected POST response: { quotes: [{ id, insurer, monthly, coverage, deductible, savings, purchaseUrl }] }
+  const QUOTE_API_URL = '';
+
   const modal = document.getElementById('quoteModal');
   const panels = [...document.querySelectorAll('.step-panel')];
   const progress = document.getElementById('progressBar');
+  const TOTAL_STEPS = 8;
   const labels = {
-    minimum: 'Lowest legal coverage',
+    minimum: 'Minimum coverage',
     value: 'Best value',
     full: 'Full coverage',
-    unsure: 'Help me understand'
+    unsure: 'Help me choose'
   };
 
   const state = {
-    zip: '', age: '', vehicleYear: '', vehicleMake: '', vehicleModel: '',
-    record: '', recordValue: '', coverage: '', profile: '', discounts: []
+    zip: '', age: '',
+    vehicleYear: '', vehicleMake: '', vehicleModel: '', vehicleOwnership: '', vehicleUse: '', annualMileage: '',
+    record: '', recordValue: '', currentlyInsured: '', currentCarrier: '', continuousCoverage: '',
+    coverage: '', deductible: '', discounts: []
   };
+
   let step = 1;
 
   function validZip(zip) { return /^\d{5}$/.test(zip); }
   function selected(field) { return document.querySelector(`.choice-grid[data-field="${field}"] .selected`); }
   function normalize(text) { return String(text || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
+  function value(id) { const el = document.getElementById(id); return el ? el.value.trim() : ''; }
 
   function showStep(target) {
     step = target;
     panels.forEach(p => p.classList.toggle('active', String(p.dataset.step) === String(target)));
-    progress.style.width = target === 'result' ? '100%' : `${Math.min(100, (Number(target) / 6) * 100)}%`;
+    if (progress) progress.style.width = target === 'result' ? '100%' : `${Math.min(100, (Number(target) / TOTAL_STEPS) * 100)}%`;
 
-    if (Number(target) === 5 && state.coverage) {
+    if (Number(target) === 7 && state.coverage) {
       const match = [...document.querySelectorAll('.choice-grid[data-field="coverage"] button')]
         .find(b => b.dataset.value === state.coverage);
       if (match) selectSingle(match);
     }
-    if (Number(target) === 6) syncModalDiscounts();
+    if (Number(target) === 8) syncModalDiscounts();
   }
 
   function selectSingle(btn) {
@@ -45,32 +53,16 @@
     btn.classList.add('selected');
   }
 
-  function profilePreset(profile) {
-    if (!profile) return;
-    const recordMap = { accident: 'accident', ticket: 'ticket' };
-    if (recordMap[profile]) {
-      const match = document.querySelector(`.choice-grid[data-field="record"] button[data-value="${recordMap[profile]}"]`);
-      if (match) selectSingle(match);
-    }
-    if (profile === 'financed') state.coverage = 'full';
-    if (profile === 'low-mileage' && !state.discounts.includes('low-mileage')) state.discounts.push('low-mileage');
-    if (profile === 'bundle' && !state.discounts.includes('home-auto')) state.discounts.push('home-auto');
-  }
-
   function openModal(opts = {}) {
     if (opts.zip) state.zip = opts.zip;
     if (opts.goal) state.coverage = opts.goal;
-    if (opts.profile) {
-      state.profile = opts.profile;
-      profilePreset(opts.profile);
-    }
     const z = document.getElementById('modalZip');
-    z.value = state.zip || '';
+    if (z) z.value = state.zip || '';
     modal.classList.add('open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
     showStep(1);
-    setTimeout(() => z.focus(), 80);
+    setTimeout(() => z && z.focus(), 80);
   }
 
   function closeModal() {
@@ -81,7 +73,7 @@
 
   document.querySelectorAll('.js-start').forEach(btn => btn.addEventListener('click', e => {
     e.preventDefault();
-    openModal({ goal: btn.dataset.goal || '', profile: btn.dataset.profile || '' });
+    openModal({ goal: btn.dataset.goal || '' });
   }));
   document.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', closeModal));
   document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
@@ -101,40 +93,63 @@
   zipInput.addEventListener('input', () => zipInput.setCustomValidity(''));
   zipInput.addEventListener('keydown', e => { if (e.key === 'Enter') document.getElementById('zipStart').click(); });
 
-  document.querySelectorAll('.quick-goals button').forEach(btn => btn.addEventListener('click', () => openModal({ goal: btn.dataset.goal || '' })));
   document.querySelectorAll('.choice-grid button').forEach(btn => btn.addEventListener('click', () => selectSingle(btn)));
 
-  document.querySelectorAll('.next-step').forEach(btn => btn.addEventListener('click', () => {
+  function validateAndSaveStep() {
     if (step === 1) {
-      const zip = document.getElementById('modalZip').value.trim();
-      if (!validZip(zip)) { document.getElementById('modalZip').focus(); return; }
+      const zip = value('modalZip');
+      if (!validZip(zip)) { document.getElementById('modalZip').focus(); return false; }
       state.zip = zip;
     }
     if (step === 2) {
-      const s = selected('age'); if (!s) return;
-      state.age = s.textContent.trim();
+      const s = selected('age'); if (!s) return false;
+      state.age = s.dataset.value || s.textContent.trim();
     }
     if (step === 3) {
-      state.vehicleYear = document.getElementById('vehicleYear').value.trim();
-      state.vehicleMake = document.getElementById('vehicleMake').value.trim();
-      state.vehicleModel = document.getElementById('vehicleModel').value.trim();
+      state.vehicleYear = value('vehicleYear');
+      state.vehicleMake = value('vehicleMake');
+      state.vehicleModel = value('vehicleModel');
       const year = Number(state.vehicleYear);
       const currentYear = new Date().getFullYear();
-      if (!/^\d{4}$/.test(state.vehicleYear) || year < 1980 || year > currentYear + 1 || !state.vehicleMake || !state.vehicleModel) return;
+      if (!/^\d{4}$/.test(state.vehicleYear) || year < 1980 || year > currentYear + 1 || !state.vehicleMake || !state.vehicleModel) return false;
     }
     if (step === 4) {
-      const s = selected('record'); if (!s) return;
+      const ownership = selected('vehicleOwnership');
+      const usage = selected('vehicleUse');
+      state.annualMileage = value('annualMileage');
+      if (!ownership || !usage || !state.annualMileage) return false;
+      state.vehicleOwnership = ownership.dataset.value || normalize(ownership.textContent);
+      state.vehicleUse = usage.dataset.value || normalize(usage.textContent);
+    }
+    if (step === 5) {
+      const s = selected('record'); if (!s) return false;
       state.record = s.textContent.trim();
       state.recordValue = s.dataset.value || normalize(state.record);
     }
-    if (step === 5) {
-      const s = selected('coverage'); if (!s) return;
-      state.coverage = s.dataset.value || normalize(s.textContent);
+    if (step === 6) {
+      const insured = selected('currentlyInsured'); if (!insured) return false;
+      state.currentlyInsured = insured.dataset.value || normalize(insured.textContent);
+      state.currentCarrier = value('currentCarrier');
+      const continuous = selected('continuousCoverage');
+      state.continuousCoverage = continuous ? (continuous.dataset.value || normalize(continuous.textContent)) : '';
+      if (state.currentlyInsured === 'yes' && !state.currentCarrier) return false;
     }
-    showStep(Math.min(6, Number(step) + 1));
+    if (step === 7) {
+      const coverage = selected('coverage');
+      const deductible = selected('deductible');
+      if (!coverage || !deductible) return false;
+      state.coverage = coverage.dataset.value || normalize(coverage.textContent);
+      state.deductible = deductible.dataset.value || normalize(deductible.textContent);
+    }
+    return true;
+  }
+
+  document.querySelectorAll('.next-step').forEach(btn => btn.addEventListener('click', () => {
+    if (!validateAndSaveStep()) return;
+    showStep(Math.min(TOTAL_STEPS, Number(step) + 1));
   }));
 
-  // Deductible explainer — educational only, never predicts a carrier premium.
+  // Main page deductible explainer — educational only.
   const deductibleSlider = document.getElementById('deductibleSlider');
   const deductibleValue = document.getElementById('deductibleValue');
   const deductibleNote = document.getElementById('deductibleNote');
@@ -151,111 +166,121 @@
     deductibleNote.textContent = deductibleNotes[i];
   });
 
-  // Public discount scanner. Selections remain in memory only and are not uploaded anywhere.
   const discountButtons = [...document.querySelectorAll('#discountChecks button')];
-  const discountScore = document.getElementById('discountScore');
   const discountMessage = document.getElementById('discountMessage');
-  const mainDiscountMap = {
-    'low-mileage': 'low-mileage', bundle: 'home-auto', 'multi-car': 'multiple-cars', student: 'good-student',
-    telematics: 'telematics', 'paid-full': 'pay-in-full', defensive: 'defensive-driving', 'anti-theft': 'anti-theft'
-  };
-
-  function updateDiscountScore() {
-    const active = discountButtons.filter(b => b.classList.contains('selected'));
-    state.discounts = active.map(b => mainDiscountMap[b.dataset.discount] || normalize(b.textContent));
-    if (discountScore) discountScore.textContent = String(active.length);
-    if (discountMessage) {
-      discountMessage.textContent = active.length
-        ? `You selected ${active.length} potential discount ${active.length === 1 ? 'category' : 'categories'}. A carrier must confirm eligibility.`
-        : 'Choose anything that may apply to you.';
-    }
-  }
   discountButtons.forEach(btn => btn.addEventListener('click', () => {
     btn.classList.toggle('selected');
-    updateDiscountScore();
+    const active = discountButtons.filter(b => b.classList.contains('selected'));
+    state.discounts = active.map(b => b.dataset.discount || normalize(b.textContent));
+    if (discountMessage) discountMessage.textContent = active.length
+      ? `You selected ${active.length} potential discount ${active.length === 1 ? 'category' : 'categories'}. A carrier must confirm eligibility.`
+      : 'Choose anything that may apply to you. A carrier must confirm eligibility.';
   }));
 
   const modalDiscountButtons = [...document.querySelectorAll('#modalDiscounts button')];
-  const modalDiscountMap = {
-    'low-mileage': 'low-mileage', 'home-auto': 'home-auto', 'multiple-cars': 'multiple-cars',
-    'good-student': 'good-student', telematics: 'telematics', 'pay-in-full': 'pay-in-full'
-  };
   modalDiscountButtons.forEach(btn => btn.addEventListener('click', () => btn.classList.toggle('selected')));
 
   function syncModalDiscounts() {
     modalDiscountButtons.forEach(btn => {
-      const key = modalDiscountMap[normalize(btn.textContent)] || normalize(btn.textContent);
+      const key = btn.dataset.value || normalize(btn.textContent);
       btn.classList.toggle('selected', state.discounts.includes(key));
     });
   }
 
   function collectModalDiscounts() {
-    const selectedKeys = modalDiscountButtons.filter(b => b.classList.contains('selected')).map(b => modalDiscountMap[normalize(b.textContent)] || normalize(b.textContent));
+    const selectedKeys = modalDiscountButtons.filter(b => b.classList.contains('selected')).map(b => b.dataset.value || normalize(b.textContent));
     state.discounts = [...new Set([...state.discounts, ...selectedKeys])];
   }
 
-  function buildInsight() {
-    let score = 0;
-    const reasons = [];
+  function setResultsStatus(text, mode) {
+    const status = document.getElementById('quoteStatus');
+    if (!status) return;
+    status.textContent = text;
+    status.dataset.mode = mode || '';
+  }
 
-    if (state.age === '18–24') { score += 3; reasons.push('Younger-driver age bands can be priced higher by many insurers.'); }
-    else if (state.age === '25–34') { score += 1; reasons.push('Age is one of several rating factors that can affect premiums.'); }
-    else if (state.age === '65+') { score += 1; reasons.push('Age can affect pricing depending on the carrier and state.'); }
+  function renderQuotes(quotes) {
+    const list = document.getElementById('liveQuoteList');
+    list.innerHTML = '';
 
-    const recordScore = { clean: 0, ticket: 2, accident: 3, multiple: 5, unknown: 1 };
-    score += recordScore[state.recordValue] ?? 0;
-    if (state.recordValue === 'clean') reasons.push('A clean recent driving record can help with pricing eligibility.');
-    if (state.recordValue === 'ticket') reasons.push('A recent ticket can raise rates, but carriers may treat violations differently.');
-    if (state.recordValue === 'accident') reasons.push('A recent accident can materially change pricing and carrier fit.');
-    if (state.recordValue === 'multiple') reasons.push('Multiple recent incidents can narrow carrier options and increase pricing pressure.');
-
-    if (state.coverage === 'full') { score += 1; reasons.push('Full coverage generally includes more protection than minimum liability, so compare identical deductibles and limits.'); }
-    else if (state.coverage === 'minimum') reasons.push('Minimum coverage targets legal requirements, but lower limits can leave more financial exposure.');
-    else reasons.push('Best-value shopping should compare price, limits, deductible and optional protections together.');
-
-    const year = Number(state.vehicleYear);
-    if (Number.isFinite(year) && year >= new Date().getFullYear() - 3 && state.coverage === 'full') {
-      score += 1;
-      reasons.push('Newer vehicles can cost more to repair or replace, which can affect physical-damage coverage pricing.');
+    if (!Array.isArray(quotes) || !quotes.length) {
+      setResultsStatus('No matched live quotes were returned for this profile. Try adjusting coverage or use the insurer links supplied by the connected partner.', 'empty');
+      return;
     }
-    if (state.discounts.length) reasons.push(`${state.discounts.length} potential discount ${state.discounts.length === 1 ? 'category was' : 'categories were'} flagged for carrier confirmation.`);
 
-    let label = 'Lower';
-    let explanation = 'Your profile shows fewer of the common factors that tend to increase pricing. This is not a quote.';
-    if (score >= 2 && score <= 3) { label = 'Moderate'; explanation = 'Your profile includes some factors that can move pricing. Carrier differences may matter.'; }
-    if (score >= 4 && score <= 6) { label = 'Elevated'; explanation = 'Your profile includes several factors that can raise pricing. Comparing carriers may be especially useful.'; }
-    if (score >= 7) { label = 'Higher'; explanation = 'Your profile includes multiple factors commonly associated with higher pricing or narrower eligibility.'; }
+    const valid = quotes
+      .filter(q => q && q.insurer && q.purchaseUrl)
+      .sort((a, b) => Number(a.monthly || Infinity) - Number(b.monthly || Infinity));
 
-    document.getElementById('ratePressure').textContent = `${label} pricing pressure`;
-    document.getElementById('pressureText').textContent = `${explanation} Educational profile signal only.`;
-    const box = document.getElementById('resultReasons');
-    box.innerHTML = '';
-    reasons.slice(0, 5).forEach(reason => {
-      const div = document.createElement('div');
-      div.textContent = reason;
-      box.appendChild(div);
+    valid.forEach((quote, index) => {
+      const card = document.createElement('article');
+      card.className = `live-quote-card${index === 0 ? ' best-match' : ''}`;
+      const monthly = Number(quote.monthly);
+      const priceText = Number.isFinite(monthly) ? `$${monthly.toFixed(monthly % 1 ? 2 : 0)}/mo` : 'See price';
+      const savings = quote.savings ? `<span class="quote-save">${quote.savings}</span>` : '';
+      card.innerHTML = `
+        <div class="quote-main">
+          <div><span class="quote-kicker">${index === 0 ? 'LOWEST MATCHED LIVE OPTION' : 'MATCHED LIVE OPTION'}</span><h3>${escapeHtml(quote.insurer)}</h3></div>
+          <strong class="quote-price">${escapeHtml(priceText)}</strong>
+        </div>
+        <div class="quote-meta"><span>${escapeHtml(quote.coverage || labels[state.coverage] || 'Coverage shown by carrier')}</span><span>Deductible: ${escapeHtml(quote.deductible || state.deductible || 'See carrier')}</span>${savings}</div>
+        <button class="btn primary quote-continue" type="button">Continue to ${escapeHtml(quote.insurer)} →</button>
+        <small>Final price, eligibility and policy purchase are completed on the insurer or licensed partner website.</small>`;
+      card.querySelector('.quote-continue').addEventListener('click', () => {
+        const url = safeHttpsUrl(quote.purchaseUrl);
+        if (url) window.location.assign(url);
+      });
+      list.appendChild(card);
     });
+
+    setResultsStatus(`${valid.length} live matched ${valid.length === 1 ? 'option' : 'options'} returned. Select an insurer to continue and complete the quote/purchase on its secure site.`, 'live');
+  }
+
+  function safeHttpsUrl(url) {
+    try {
+      const parsed = new URL(url, window.location.href);
+      return parsed.protocol === 'https:' ? parsed.href : '';
+    } catch (_) { return ''; }
+  }
+
+  function escapeHtml(text) {
+    return String(text ?? '').replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
+  }
+
+  async function requestLiveQuotes() {
+    document.getElementById('rZip').textContent = state.zip || '—';
+    document.getElementById('rVehicle').textContent = [state.vehicleYear, state.vehicleMake, state.vehicleModel].filter(Boolean).join(' ') || '—';
+    document.getElementById('rCoverage').textContent = labels[state.coverage] || state.coverage || '—';
+    document.getElementById('rRecord').textContent = state.record || '—';
+    showStep('result');
+
+    const list = document.getElementById('liveQuoteList');
+    list.innerHTML = '';
+
+    if (!QUOTE_API_URL) {
+      setResultsStatus('The comparison flow is ready for live insurer data. A licensed quote partner/API still needs to be connected before real prices and insurer purchase links can be displayed.', 'setup');
+      return;
+    }
+
+    setResultsStatus('Checking matched live insurer options…', 'loading');
+    try {
+      const response = await fetch(QUOTE_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(state),
+        credentials: 'omit'
+      });
+      if (!response.ok) throw new Error(`Quote service returned ${response.status}`);
+      const data = await response.json();
+      renderQuotes(data.quotes || []);
+    } catch (err) {
+      console.error('Live quote request failed:', err);
+      setResultsStatus('Live quotes are temporarily unavailable. Please try again later.', 'error');
+    }
   }
 
   document.getElementById('finishQuote').addEventListener('click', () => {
     collectModalDiscounts();
-    document.getElementById('rZip').textContent = state.zip || '—';
-    document.getElementById('rCoverage').textContent = labels[state.coverage] || state.coverage || '—';
-    document.getElementById('rRecord').textContent = state.record || '—';
-    buildInsight();
-
-    const p = document.getElementById('partnerBtn');
-    if (PARTNER_URL) {
-      p.textContent = 'View licensed partner quotes →';
-      p.disabled = false;
-    } else {
-      p.textContent = 'Live partner quotes opening soon';
-      p.disabled = true;
-    }
-    showStep('result');
-  });
-
-  document.getElementById('partnerBtn').addEventListener('click', () => {
-    if (PARTNER_URL) window.location.assign(PARTNER_URL);
+    requestLiveQuotes();
   });
 })();
