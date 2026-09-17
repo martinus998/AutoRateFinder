@@ -4,9 +4,16 @@
 (function () {
   'use strict';
 
-  // Point this to a secure server endpoint once the licensed quote partner is connected.
-  // Expected POST response: { quotes: [{ id, insurer, monthly, coverage, deductible, savings, purchaseUrl }] }
-  const QUOTE_API_URL = '';
+  // LIVE ACTIVATION: change these values only after a licensed quote partner is approved
+  // and the secure server-side proxy is deployed. Never put private partner credentials here.
+  const CONFIG = Object.freeze({
+    status: 'pending', // pending | live
+    providerName: '',
+    endpoint: '', // AutoRateFinder secure server-side quote proxy, not a private carrier endpoint
+    allowedRedirectHosts: [], // exact approved carrier / partner hostnames
+    timeoutMs: 15000,
+    consentVersion: '2026-09-17-v1'
+  });
 
   const modal = document.getElementById('quoteModal');
   const panels = [...document.querySelectorAll('.step-panel')];
@@ -43,7 +50,10 @@
         .find(b => b.dataset.value === state.coverage);
       if (match) selectSingle(match);
     }
-    if (Number(target) === 8) syncModalDiscounts();
+    if (Number(target) === 8) {
+      syncModalDiscounts();
+      syncConsentUi();
+    }
   }
 
   function selectSingle(btn) {
@@ -117,7 +127,9 @@
       const ownership = selected('vehicleOwnership');
       const usage = selected('vehicleUse');
       state.annualMileage = value('annualMileage');
-      if (!ownership || !usage || !state.annualMileage) return false;
+      const miles = Number(state.annualMileage.replace(/[^0-9]/g, ''));
+      if (!ownership || !usage || !Number.isFinite(miles) || miles < 0 || miles > 100000) return false;
+      state.annualMileage = String(miles);
       state.vehicleOwnership = ownership.dataset.value || normalize(ownership.textContent);
       state.vehicleUse = usage.dataset.value || normalize(usage.textContent);
     }
@@ -132,7 +144,8 @@
       state.currentCarrier = value('currentCarrier');
       const continuous = selected('continuousCoverage');
       state.continuousCoverage = continuous ? (continuous.dataset.value || normalize(continuous.textContent)) : '';
-      if (state.currentlyInsured === 'yes' && !state.currentCarrier) return false;
+      if (state.currentlyInsured === 'yes' && (!state.currentCarrier || !state.continuousCoverage)) return false;
+      if (state.currentlyInsured === 'no') state.currentCarrier = '';
     }
     if (step === 7) {
       const coverage = selected('coverage');
@@ -192,6 +205,43 @@
     state.discounts = [...new Set([...state.discounts, ...selectedKeys])];
   }
 
+  function ensureConsentUi() {
+    let box = document.getElementById('quoteShareConsentBox');
+    if (box) return box;
+    const finish = document.getElementById('finishQuote');
+    if (!finish || !finish.parentElement) return null;
+
+    box = document.createElement('div');
+    box.id = 'quoteShareConsentBox';
+    box.hidden = true;
+    box.style.cssText = 'margin:12px 0;padding:11px 12px;border:1px solid rgba(76,164,220,.35);border-radius:12px;background:#061b33;color:#bad3e4;font-size:10px;line-height:1.45;';
+    box.innerHTML = '<label style="display:flex;gap:8px;align-items:flex-start;cursor:pointer"><input id="quoteShareConsent" type="checkbox" style="margin-top:3px"><span>I agree that the quote information I entered may be securely shared with the licensed insurance quote partner shown here so it can return matched insurance options. This is separate from any consent to marketing calls or texts. <a href="privacy.html" target="_blank" rel="noopener" style="color:#59e7bc">Privacy</a></span></label><p id="quoteShareConsentError" style="display:none;margin:7px 0 0;color:#ffb7b7"></p>';
+    finish.parentElement.insertBefore(box, finish);
+    return box;
+  }
+
+  function syncConsentUi() {
+    const box = ensureConsentUi();
+    if (!box) return;
+    const live = CONFIG.status === 'live' && Boolean(CONFIG.endpoint);
+    box.hidden = !live;
+    const error = document.getElementById('quoteShareConsentError');
+    if (error) { error.style.display = 'none'; error.textContent = ''; }
+  }
+
+  function consentGranted() {
+    if (CONFIG.status !== 'live') return true;
+    const checkbox = document.getElementById('quoteShareConsent');
+    if (checkbox && checkbox.checked) return true;
+    const error = document.getElementById('quoteShareConsentError');
+    if (error) {
+      error.textContent = 'Please confirm quote-sharing consent before requesting live quotes.';
+      error.style.display = 'block';
+    }
+    checkbox?.focus();
+    return false;
+  }
+
   function setResultsStatus(text, mode) {
     const status = document.getElementById('quoteStatus');
     if (!status) return;
@@ -199,25 +249,40 @@
     status.dataset.mode = mode || '';
   }
 
+  function approvedHttpsUrl(url) {
+    try {
+      const parsed = new URL(url);
+      if (parsed.protocol !== 'https:') return '';
+      if (!CONFIG.allowedRedirectHosts.length) return '';
+      if (!CONFIG.allowedRedirectHosts.includes(parsed.hostname)) return '';
+      return parsed.href;
+    } catch (_) { return ''; }
+  }
+
+  function escapeHtml(text) {
+    return String(text ?? '').replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
+  }
+
   function renderQuotes(quotes) {
     const list = document.getElementById('liveQuoteList');
     list.innerHTML = '';
 
-    if (!Array.isArray(quotes) || !quotes.length) {
-      setResultsStatus('No matched live quotes were returned for this profile. Try adjusting coverage or use the insurer links supplied by the connected partner.', 'empty');
+    const valid = (Array.isArray(quotes) ? quotes : [])
+      .map(q => ({ ...q, approvedUrl: q && q.purchaseUrl ? approvedHttpsUrl(q.purchaseUrl) : '' }))
+      .filter(q => q && q.insurer && q.approvedUrl)
+      .sort((a, b) => Number(a.monthly || Infinity) - Number(b.monthly || Infinity));
+
+    if (!valid.length) {
+      setResultsStatus('No verified live quote links were returned for this profile. Please try again later or adjust your coverage selections.', 'empty');
       return;
     }
-
-    const valid = quotes
-      .filter(q => q && q.insurer && q.purchaseUrl)
-      .sort((a, b) => Number(a.monthly || Infinity) - Number(b.monthly || Infinity));
 
     valid.forEach((quote, index) => {
       const card = document.createElement('article');
       card.className = `live-quote-card${index === 0 ? ' best-match' : ''}`;
       const monthly = Number(quote.monthly);
-      const priceText = Number.isFinite(monthly) ? `$${monthly.toFixed(monthly % 1 ? 2 : 0)}/mo` : 'See price';
-      const savings = quote.savings ? `<span class="quote-save">${quote.savings}</span>` : '';
+      const priceText = Number.isFinite(monthly) ? `$${monthly.toFixed(monthly % 1 ? 2 : 0)}/mo` : 'See final price';
+      const savings = quote.savings ? `<span class="quote-save">${escapeHtml(quote.savings)}</span>` : '';
       card.innerHTML = `
         <div class="quote-main">
           <div><span class="quote-kicker">${index === 0 ? 'LOWEST MATCHED LIVE OPTION' : 'MATCHED LIVE OPTION'}</span><h3>${escapeHtml(quote.insurer)}</h3></div>
@@ -226,25 +291,62 @@
         <div class="quote-meta"><span>${escapeHtml(quote.coverage || labels[state.coverage] || 'Coverage shown by carrier')}</span><span>Deductible: ${escapeHtml(quote.deductible || state.deductible || 'See carrier')}</span>${savings}</div>
         <button class="btn primary quote-continue" type="button">Continue to ${escapeHtml(quote.insurer)} →</button>
         <small>Final price, eligibility and policy purchase are completed on the insurer or licensed partner website.</small>`;
-      card.querySelector('.quote-continue').addEventListener('click', () => {
-        const url = safeHttpsUrl(quote.purchaseUrl);
-        if (url) window.location.assign(url);
-      });
+      card.querySelector('.quote-continue').addEventListener('click', () => window.location.assign(quote.approvedUrl));
       list.appendChild(card);
     });
 
-    setResultsStatus(`${valid.length} live matched ${valid.length === 1 ? 'option' : 'options'} returned. Select an insurer to continue and complete the quote/purchase on its secure site.`, 'live');
+    setResultsStatus(`${valid.length} verified live matched ${valid.length === 1 ? 'option' : 'options'} returned. Select an insurer to continue and complete the quote or policy on its secure site.`, 'live');
   }
 
-  function safeHttpsUrl(url) {
-    try {
-      const parsed = new URL(url, window.location.href);
-      return parsed.protocol === 'https:' ? parsed.href : '';
-    } catch (_) { return ''; }
+  function renderHostedHandoff(url, label) {
+    const approved = approvedHttpsUrl(url);
+    const list = document.getElementById('liveQuoteList');
+    list.innerHTML = '';
+    if (!approved) {
+      setResultsStatus('The quote partner returned a link that is not on AutoRateFinder\'s approved secure destination list.', 'error');
+      return;
+    }
+
+    const card = document.createElement('article');
+    card.className = 'live-quote-card best-match';
+    const provider = label || CONFIG.providerName || 'licensed quote partner';
+    card.innerHTML = `<div class="quote-main"><div><span class="quote-kicker">SECURE LIVE QUOTE HANDOFF</span><h3>${escapeHtml(provider)}</h3></div></div><div class="quote-meta"><span>Complete remaining details</span><span>See carrier-approved offers</span></div><button class="btn primary quote-continue" type="button">Continue securely →</button><small>You will continue to the licensed partner or insurer site to see and complete available quotes.</small>`;
+    card.querySelector('.quote-continue').addEventListener('click', () => window.location.assign(approved));
+    list.appendChild(card);
+    setResultsStatus('Your profile is ready. Continue securely to the licensed quote experience to see available carrier offers.', 'live');
   }
 
-  function escapeHtml(text) {
-    return String(text ?? '').replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c]));
+  function buildPartnerPayload() {
+    return {
+      profile: {
+        version: 2,
+        zip: state.zip,
+        ageBand: state.age,
+        vehicle: {
+          year: state.vehicleYear,
+          make: state.vehicleMake,
+          model: state.vehicleModel,
+          ownership: state.vehicleOwnership,
+          use: state.vehicleUse,
+          annualMileage: state.annualMileage
+        },
+        drivingRecord: state.recordValue,
+        currentInsurance: {
+          insured: state.currentlyInsured === 'yes',
+          carrier: state.currentCarrier,
+          continuousCoverage: state.continuousCoverage
+        },
+        coverageGoal: state.coverage,
+        deductible: state.deductible,
+        discounts: state.discounts
+      },
+      consent: {
+        quoteSharing: true,
+        consentedAt: new Date().toISOString(),
+        consentVersion: CONFIG.consentVersion
+      },
+      source: 'autoratefinder-web'
+    };
   }
 
   async function requestLiveQuotes() {
@@ -257,30 +359,60 @@
     const list = document.getElementById('liveQuoteList');
     list.innerHTML = '';
 
-    if (!QUOTE_API_URL) {
-      setResultsStatus('The comparison flow is ready for live insurer data. A licensed quote partner/API still needs to be connected before real prices and insurer purchase links can be displayed.', 'setup');
+    if (CONFIG.status !== 'live' || !CONFIG.endpoint) {
+      setResultsStatus('AutoRateFinder is ready for live carrier data. The remaining step is approval and credentials from a licensed U.S. quote partner before real prices and purchase links can be displayed.', 'setup');
+      return;
+    }
+
+    if (!CONFIG.allowedRedirectHosts.length) {
+      setResultsStatus('Live quote integration is not fully configured yet because no approved insurer/partner destination domains are set.', 'error');
       return;
     }
 
     setResultsStatus('Checking matched live insurer options…', 'loading');
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), CONFIG.timeoutMs);
     try {
-      const response = await fetch(QUOTE_API_URL, {
+      const response = await fetch(CONFIG.endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(state),
-        credentials: 'omit'
+        body: JSON.stringify(buildPartnerPayload()),
+        credentials: 'omit',
+        signal: controller.signal
       });
       if (!response.ok) throw new Error(`Quote service returned ${response.status}`);
       const data = await response.json();
-      renderQuotes(data.quotes || []);
+
+      if (Array.isArray(data.quotes) && data.quotes.length) {
+        renderQuotes(data.quotes);
+        return;
+      }
+
+      const handoff = data.redirectUrl || data.redirect_url || '';
+      if (handoff) {
+        renderHostedHandoff(handoff, data.providerName || data.provider_name || '');
+        return;
+      }
+
+      setResultsStatus('The live quote partner did not return any available offers for this profile.', 'empty');
     } catch (err) {
-      console.error('Live quote request failed:', err);
+      console.error('Live quote request failed without logging the quote profile:', err);
       setResultsStatus('Live quotes are temporarily unavailable. Please try again later.', 'error');
+    } finally {
+      clearTimeout(timer);
     }
   }
 
   document.getElementById('finishQuote').addEventListener('click', () => {
     collectModalDiscounts();
+    if (!consentGranted()) return;
     requestLiveQuotes();
+  });
+
+  ensureConsentUi();
+  window.AutoRateFinderPartnerStatus = Object.freeze({
+    status: CONFIG.status,
+    providerName: CONFIG.providerName || null,
+    endpointConfigured: Boolean(CONFIG.endpoint)
   });
 })();
