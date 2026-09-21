@@ -34,34 +34,67 @@ html,body{background:#021426!important;color:#f7fbff!important}body{margin:0;bac
 @media(max-width:760px){.launch-banner{align-items:flex-start;flex-direction:column}.launch-banner strong{font-size:14px}.launch-banner p{font-size:8px}.partner-ready{grid-template-columns:1fr}.partner-ready h2{font-size:16px}.partner-ready p{font-size:8px}.partner-points span{font-size:7px}}
 
 
-/* AutoRateFinder scenic road background */
+/* AutoRateFinder scenic road background — fixed viewport version */
+html{background:#021426!important}
 body{
-  background-image:
-    linear-gradient(180deg,rgba(2,20,38,.74) 0%,rgba(2,18,37,.82) 48%,rgba(2,18,37,.9) 100%),
-    url("autorate-road-bg.jpg") !important;
-  background-size:cover !important;
-  background-position:center center !important;
-  background-repeat:no-repeat !important;
-  background-attachment:fixed !important;
+  position:relative;
+  min-height:100vh;
+  background:transparent!important;
 }
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+  background:url("autorate-road-bg.jpg") center 58% / cover no-repeat;
+  transform:translateZ(0);
+}
+body::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:
+    linear-gradient(180deg,rgba(2,18,39,.24) 0%,rgba(2,18,39,.32) 45%,rgba(2,18,39,.48) 100%);
+}
+.page{background:transparent!important}
 .site-header{
-  background:rgba(2,18,39,.90)!important;
+  background:rgba(2,18,39,.82)!important;
   backdrop-filter:blur(10px);
 }
-.top-compare,
 .launch-banner,
-.partner-ready,
+.top-compare,
+.partner-ready{
+  background:linear-gradient(180deg,rgba(7,31,61,.66),rgba(4,23,45,.72))!important;
+  backdrop-filter:blur(2px);
+}
 .coverage-card,
 .discount-bar,
 .info-card,
 .benefit-row article{
-  background:linear-gradient(180deg,rgba(7,31,61,.86),rgba(4,23,45,.91))!important;
-  backdrop-filter:blur(3px);
+  background:linear-gradient(180deg,rgba(7,31,61,.72),rgba(4,23,45,.78))!important;
+  backdrop-filter:blur(2px);
 }
+.insurer-table,
+.ins-row,
+.summary-box{
+  background-color:rgba(5,26,48,.78)!important;
+}
+footer{background:rgba(2,18,37,.82)!important}
 @media(max-width:760px){
-  body{
-    background-position:62% center !important;
-    background-attachment:scroll !important;
+  body::before{
+    background-position:50% 58%;
+    background-size:cover;
+  }
+  body::after{
+    background:linear-gradient(180deg,rgba(2,18,39,.16) 0%,rgba(2,18,39,.28) 42%,rgba(2,18,39,.42) 100%);
+  }
+  .launch-banner,
+  .top-compare,
+  .partner-ready{
+    background:linear-gradient(180deg,rgba(7,31,61,.56),rgba(4,23,45,.64))!important;
   }
 }
 
