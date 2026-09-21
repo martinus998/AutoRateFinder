@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://martinus998.github.io/AutoRateFinder/sitemap.xml
+Sitemap: https://getautoratefinder.com/sitemap.xml
