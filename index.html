@@ -33,6 +33,38 @@ html,body{background:#021426!important;color:#f7fbff!important}body{margin:0;bac
 .partner-ready h2{margin:4px 0 6px;font-size:24px}.partner-ready p{margin:0;color:#9fc0d6;font-size:11px;line-height:1.5}.partner-points{display:grid;grid-template-columns:1fr 1fr;gap:7px}.partner-points span{font-size:9px;color:#8fe9c7}
 @media(max-width:760px){.launch-banner{align-items:flex-start;flex-direction:column}.launch-banner strong{font-size:14px}.launch-banner p{font-size:8px}.partner-ready{grid-template-columns:1fr}.partner-ready h2{font-size:16px}.partner-ready p{font-size:8px}.partner-points span{font-size:7px}}
 
+
+/* AutoRateFinder scenic road background */
+body{
+  background-image:
+    linear-gradient(180deg,rgba(2,20,38,.74) 0%,rgba(2,18,37,.82) 48%,rgba(2,18,37,.9) 100%),
+    url("autorate-road-bg.jpg") !important;
+  background-size:cover !important;
+  background-position:center center !important;
+  background-repeat:no-repeat !important;
+  background-attachment:fixed !important;
+}
+.site-header{
+  background:rgba(2,18,39,.90)!important;
+  backdrop-filter:blur(10px);
+}
+.top-compare,
+.launch-banner,
+.partner-ready,
+.coverage-card,
+.discount-bar,
+.info-card,
+.benefit-row article{
+  background:linear-gradient(180deg,rgba(7,31,61,.86),rgba(4,23,45,.91))!important;
+  backdrop-filter:blur(3px);
+}
+@media(max-width:760px){
+  body{
+    background-position:62% center !important;
+    background-attachment:scroll !important;
+  }
+}
+
 </style>
 </head>
 <body>
