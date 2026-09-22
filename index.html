@@ -34,7 +34,7 @@ html,body{background:#021426!important;color:#f7fbff!important}body{margin:0;bac
 @media(max-width:760px){.launch-banner{align-items:flex-start;flex-direction:column}.launch-banner strong{font-size:14px}.launch-banner p{font-size:8px}.partner-ready{grid-template-columns:1fr}.partner-ready h2{font-size:16px}.partner-ready p{font-size:8px}.partner-points span{font-size:7px}}
 
 
-/* AutoRateFinder scenic road background — fixed viewport version */
+/* AutoRateFinder scenic road background — HD production image */
 html{background:#021426!important}
 body{
   position:relative;
@@ -47,7 +47,10 @@ body::before{
   inset:0;
   z-index:-2;
   pointer-events:none;
-  background:url("autorate-road-bg.jpg") center 58% / cover no-repeat;
+  background-image:url("https://images.unsplash.com/photo-1753019493002-df17cbb0b34a?auto=format&fit=crop&q=88&w=2000");
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;
   transform:translateZ(0);
 }
 body::after{
@@ -56,45 +59,54 @@ body::after{
   inset:0;
   z-index:-1;
   pointer-events:none;
-  background:
-    linear-gradient(180deg,rgba(2,18,39,.24) 0%,rgba(2,18,39,.32) 45%,rgba(2,18,39,.48) 100%);
+  background:linear-gradient(
+    180deg,
+    rgba(2,18,39,.20) 0%,
+    rgba(2,18,39,.30) 42%,
+    rgba(2,18,39,.48) 100%
+  );
 }
 .page{background:transparent!important}
 .site-header{
-  background:rgba(2,18,39,.82)!important;
-  backdrop-filter:blur(10px);
+  background:rgba(2,18,39,.86)!important;
+  backdrop-filter:blur(8px);
 }
 .launch-banner,
 .top-compare,
 .partner-ready{
-  background:linear-gradient(180deg,rgba(7,31,61,.66),rgba(4,23,45,.72))!important;
-  backdrop-filter:blur(2px);
+  background:linear-gradient(180deg,rgba(7,31,61,.64),rgba(4,23,45,.72))!important;
+  backdrop-filter:blur(1.5px);
 }
 .coverage-card,
 .discount-bar,
 .info-card,
 .benefit-row article{
-  background:linear-gradient(180deg,rgba(7,31,61,.72),rgba(4,23,45,.78))!important;
-  backdrop-filter:blur(2px);
+  background:linear-gradient(180deg,rgba(7,31,61,.72),rgba(4,23,45,.80))!important;
+  backdrop-filter:blur(1.5px);
 }
 .insurer-table,
 .ins-row,
 .summary-box{
-  background-color:rgba(5,26,48,.78)!important;
+  background-color:rgba(5,26,48,.80)!important;
 }
-footer{background:rgba(2,18,37,.82)!important}
+footer{background:rgba(2,18,37,.86)!important}
 @media(max-width:760px){
   body::before{
-    background-position:50% 58%;
+    background-position:58% center;
     background-size:cover;
   }
   body::after{
-    background:linear-gradient(180deg,rgba(2,18,39,.16) 0%,rgba(2,18,39,.28) 42%,rgba(2,18,39,.42) 100%);
+    background:linear-gradient(
+      180deg,
+      rgba(2,18,39,.14) 0%,
+      rgba(2,18,39,.26) 42%,
+      rgba(2,18,39,.44) 100%
+    );
   }
   .launch-banner,
   .top-compare,
   .partner-ready{
-    background:linear-gradient(180deg,rgba(7,31,61,.56),rgba(4,23,45,.64))!important;
+    background:linear-gradient(180deg,rgba(7,31,61,.58),rgba(4,23,45,.66))!important;
   }
 }
 
