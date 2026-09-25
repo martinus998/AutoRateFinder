@@ -14,6 +14,8 @@
   const visitorId=getId(localStorage,'arf_live_visitor_v1');
   const sessionId=getId(sessionStorage,'arf_live_session_v1');
   let sentView=false;
+  let lastActivity=Date.now();
+  let lastPing=0;
   function sourcePayload(){
     let referrer_host='';
     try{
@@ -32,6 +34,8 @@
   }
   async function ping(pageview=false){
     if(document.visibilityState==='hidden'&&!pageview) return;
+    if(!pageview&&Date.now()-lastActivity>60000) return;
+    lastPing=Date.now();
     try{
       await fetch(endpoint,{
         method:'POST',
@@ -42,13 +46,16 @@
           session_id:sessionId,
           path:location.pathname,
           pageview,
+          active_at:new Date(lastActivity).toISOString(),
           ...sourcePayload()
         })
       });
     }catch{}
   }
-  function first(){if(!sentView){sentView=true;void ping(true);}}
+  function markActive(){lastActivity=Date.now();if(document.visibilityState==='visible'&&Date.now()-lastPing>25000)void ping(false);}
+  function first(){if(!sentView){sentView=true;lastActivity=Date.now();void ping(true);}}
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',first,{once:true}); else first();
+  ['pointerdown','keydown','touchstart','scroll'].forEach(type=>window.addEventListener(type,markActive,{passive:true}));
   setInterval(()=>void ping(false),30000);
-  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible') void ping(false);});
+  document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){lastActivity=Date.now();void ping(false);}});
 })();
