@@ -65,10 +65,11 @@
           showReport(data.report); message(''); return;
         } catch (err) {
           if (err.message !== 'payment_not_complete') { if (session) message('We could not verify the payment yet. Please contact support if you were charged.'); return; }
-          if (attempt < 7 && session) await new Promise(resolve => setTimeout(resolve, 2000));
+          if (!session) return;
+          if (attempt < 7) await new Promise(resolve => setTimeout(resolve, 2000));
         }
       }
-      message('Payment is still processing. Refresh this page shortly. If you were charged and the report does not appear, contact support.');
+      if (session) message('Payment is still processing. Refresh this page shortly. If you were charged and the report does not appear, contact support.');
     };
     void loadReport();
   } else if (session) {
