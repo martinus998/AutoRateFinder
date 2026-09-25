@@ -59,3 +59,12 @@
   setInterval(()=>void ping(false),30000);
   document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){lastActivity=Date.now();void ping(false);}});
 })();
+
+// Independent presentation module: no changes to the quote or payment flow.
+(() => {
+  if (document.querySelector('script[data-fast-checkout-labels]')) return;
+  const wallets = document.createElement('script');
+  wallets.src = '/fast-checkout-labels.js?v=20260925-wallets1';
+  wallets.dataset.fastCheckoutLabels = '1';
+  document.head.append(wallets);
+})();
