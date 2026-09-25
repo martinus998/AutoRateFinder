@@ -1,39 +1,26 @@
 # AutoRateFinder
 
-U.S.-focused car insurance comparison experience built around trust, apples-to-apples coverage comparison, privacy-first intake and transparent quote status.
+AutoRateFinder reviews an existing U.S. auto insurance quote for a one-time $2.99. The report uses the visitor's own premium, deductible and coverage entries. It does not retrieve insurer prices, sell a policy or promise savings.
 
-## Product principles
+## Release status
 
-- No phone number required to start.
-- Clearly distinguish a live quote, an estimate and sponsored placement.
-- Compare matching coverage and deductibles instead of headline prices only.
-- Explain why a final carrier price can change.
-- Surface discount opportunities and deductible trade-offs.
-- Never present a made-up price as a real insurer quote.
-- No hidden telemarketing consent.
-- Disclose partner compensation and sponsored results.
-- Live purchase/referral goes only through appropriately licensed insurance partners.
+The paid review is **prepared for a preview only**. The Stripe API credential is not configured on the Supabase project, so Checkout cannot be created. The separate experimental Stripe Payment Link is inactive. Do not merge this branch into production or buy advertising until the payment and report flow has passed a live end-to-end check.
 
-## Current status
+## Payment flow
 
-- Public comparison preview UI
-- ZIP / driver / vehicle / coverage intake flow
-- Privacy-first quote flow
-- Consent-aware GA4 analytics
-- Google Search Console / sitemap / SEO tracking
-- GitHub Actions security audit
-- Partner integration adapter prepared in fail-closed `pending` mode
-- Secure server-side partner proxy template prepared for partner API mapping
-- Live carrier/affiliate approval and credentials still pending
+1. `autorate-payments` validates the submitted quote, checks the rate limit and stores a pending order with a hashed browser access token.
+2. With `AUTORATE_STRIPE_RESTRICTED_KEY` configured in the Supabase Edge Function secrets, the server creates a one-time Checkout Session using the fixed $2.99 price `price_1UJY8bBVUFmkZjNk8j5djwTJ` and stores its ID with the order.
+3. On return, the server retrieves the canonical Stripe Session and verifies the order ID, product metadata, currency, total and paid status before marking the order paid and returning the report. The existing signed `safeorscam-webhook` endpoint also fulfills paid Checkout Sessions. Its verification must remain active when deploying the change.
+4. Further report requests require the order ID plus a random access token from the same browser; neither the browser return URL nor the webhook payload alone can unlock an unpaid order.
 
-## Partner integration
+The Supabase migration is at `supabase/migrations/20260925122000_autorate_orders.sql`. The endpoint source and shared webhook integration are under `supabase/functions/`.
 
-See `PARTNER_INTEGRATION.md` for the activation checklist and browser/proxy contract. The public site remains in preview mode until a licensed quote partner is approved and the final integration passes test-mode validation.
+## Activation checklist
 
-## Security boundary
+- In Stripe, create a **live restricted key** for the connected `Martin Lesko` account with the ability to create and retrieve Checkout Sessions. Save it as `AUTORATE_STRIPE_RESTRICTED_KEY` in the Supabase project `bkyuyqicybqqifenhhux` through its secret settings. Never commit or paste the key into this repository.
+- Confirm the existing signed webhook endpoint `safeorscam-webhook` is healthy and receives `checkout.session.completed` and `checkout.session.async_payment_succeeded`. Deploy its updated source along with `autorate-payments` and its dependencies.
+- Test a real $2.99 payment using a controlled purchase, verify that the order transitions to paid and the report appears in the same browser, then test an invalid/unpaid Session ID and a repeat webhook delivery. Refund the controlled purchase as appropriate.
+- Review the checkout merchant label (currently the connected BillSavings AI account), privacy notice, support address and payout bank ending **3984** before launch.
+- Merge and publish the public page only when these checks pass. The inactive Payment Link is not needed for the Checkout Session flow.
 
-No private API keys, insurer credentials, payment secrets or customer PII belong in this public repository. Any future lead handoff containing personal information must go through a secure server-side backend with explicit consent and retention/deletion controls.
-
-## Compliance boundary
-
-AutoRateFinder is not an insurance carrier, agency or producer and does not underwrite, bind, sell, solicit or negotiate insurance. Final quotes and policies must be offered by appropriately licensed insurers, agencies or producers.
+The old comparison prototype remains in the repository for history; `index.html` is the proposed paid review homepage.
