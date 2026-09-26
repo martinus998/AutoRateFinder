@@ -1,0 +1,71 @@
+name: IndexNow
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "*.html"
+      - "sitemap*.xml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  notify-indexnow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - name: Submit changed pages to IndexNow
+        env:
+          INDEXNOW_KEY: 9f4a62c18d3e47b8a6c1d250ef7934ab
+          SITE_HOST: www.getautoratefinder.com
+          BEFORE_SHA: ${{ github.event.before }}
+          AFTER_SHA: ${{ github.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          python - <<'PY'
+          import json, os, subprocess, urllib.request
+
+          host = os.environ["SITE_HOST"]
+          base = "https://" + host
+          key = os.environ["INDEXNOW_KEY"]
+          event = os.environ.get("EVENT_NAME", "")
+          before = os.environ.get("BEFORE_SHA", "")
+          after = os.environ.get("AFTER_SHA", "")
+
+          if event == "workflow_dispatch" or not before or set(before) == {"0"}:
+              out = subprocess.check_output(["git","ls-files","*.html"], text=True)
+              files = out.splitlines()
+          else:
+              out = subprocess.check_output(["git","diff","--name-only",before,after], text=True)
+              files = [x for x in out.splitlines() if x.endswith(".html")]
+
+          urls = []
+          for f in files:
+              if "/" in f:
+                  continue
+              url = base + "/" if f == "index.html" else base + "/" + f
+              if url not in urls:
+                  urls.append(url)
+
+          if not urls:
+              urls = [base + "/"]
+
+          payload = {
+              "host": host,
+              "key": key,
+              "keyLocation": f"{base}/{key}.txt",
+              "urlList": urls[:10000],
+          }
+          req = urllib.request.Request(
+              "https://api.indexnow.org/IndexNow",
+              data=json.dumps(payload).encode("utf-8"),
+              headers={"Content-Type":"application/json; charset=utf-8"},
+              method="POST",
+          )
+          with urllib.request.urlopen(req, timeout=20) as r:
+              print("IndexNow status:", r.status, "URLs:", len(payload["urlList"]))
+          PY
