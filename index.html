@@ -126,13 +126,20 @@ footer{background:rgba(2,18,37,.86)!important}
     <section class="review-copy" aria-labelledby="reviewHeading">
       <div class="review-kicker">For U.S. drivers · One-time $2.99</div>
       <h1 id="reviewHeading">Understand the quote you already have.</h1>
-      <p>Enter the premium and coverage details from your auto insurance quote. Get a clear breakdown of your numbers and a checklist of what to ask before you decide.</p>
-      <div class="review-points"><span>✓ Your price, explained</span><span>✓ Deductible check</span><span>✓ Questions to ask</span><span>✓ No subscription</span></div>
+      <p>Enter the premium and coverage details from your auto insurance quote. See a free cost preview first, then unlock the full personalized review for a one-time $2.99.</p>
+      <div class="review-points"><span>✓ Free cost preview</span><span>✓ Deductible check</span><span>✓ Questions to ask</span><span>✓ No subscription</span></div>
+      <div class="value-proof" aria-label="What the paid report includes">
+        <strong>What $2.99 unlocks</strong>
+        <span>12-month cost breakdown</span>
+        <span>Deductible trade-off prompts</span>
+        <span>Coverage questions for your insurer</span>
+        <span>Second-quote comparison when entered</span>
+      </div>
       <p class="review-fine">This educational review uses the numbers you enter. It does not fetch insurer prices, sell insurance or promise a lower rate.</p>
     </section>
     <section class="review-card" aria-labelledby="formHeading">
       <h2 id="formHeading">Review your quote</h2>
-      <p class="subtitle">Fill in your existing offer. Your personalized report unlocks after secure payment.</p>
+      <p class="subtitle">Fill in your existing offer. We show a free preview before checkout; the full personalized report unlocks after secure payment.</p>
       <form id="reviewForm">
         <div class="review-section-label">Your car and location</div>
         <div class="review-fields">
@@ -151,9 +158,20 @@ footer{background:rgba(2,18,37,.86)!important}
         <div class="review-section-label">Extras shown (optional)</div>
         <div class="review-extras"><label><input name="extras" type="checkbox" value="collision">Collision</label><label><input name="extras" type="checkbox" value="comprehensive">Comprehensive</label><label><input name="extras" type="checkbox" value="rental">Rental car</label><label><input name="extras" type="checkbox" value="roadside">Roadside</label></div>
         <details class="review-optional"><summary>Compare a second quote (optional)</summary><div class="review-fields" style="margin-top:9px"><label>Second monthly price ($)<input name="secondPremium" type="number" inputmode="decimal" min="1" max="3000" step="0.01" placeholder="169.00"></label><label>Second deductible ($)<input name="secondDeductible" type="number" inputmode="numeric" min="0" max="10000" step="1" placeholder="1000"></label></div><p class="review-fine">Enter both fields to compare your supplied prices. We do not retrieve a second insurer quote.</p></details>
-        <div class="review-price"><span>One report · one-time payment</span><strong>$2.99</strong></div>
-        <button class="review-pay" id="reviewPay" type="submit">Show my result · Pay $2.99 →</button>
-        <p class="review-fine">Secure checkout with Stripe may show BillSavings AI as the connected business account. Your report appears here after payment. Open it in the same browser and save or print a copy. No subscription or phone number required.</p>
+        <section id="freePreview" class="free-preview" hidden aria-live="polite">
+          <div class="free-preview-head"><span>FREE PREVIEW</span><strong id="previewVehicle">Your quote</strong></div>
+          <div class="preview-metrics">
+            <div><small>Monthly premium</small><strong id="previewMonthly">—</strong></div>
+            <div><small>12-month premium</small><strong id="previewAnnual">—</strong></div>
+            <div><small>Deductible</small><strong id="previewDeductible">—</strong></div>
+          </div>
+          <p id="previewCompare" class="preview-compare"></p>
+          <p class="preview-lock">Full review unlocks the tailored questions, deductible prompts, coverage checklist and second-quote comparison.</p>
+        </section>
+        <div class="review-price"><span>Full personalized report · one-time payment</span><strong>$2.99</strong></div>
+        <button class="review-pay" id="reviewPay" type="submit">Unlock my full review · $2.99 →</button>
+        <p class="checkout-trust">🔒 Secure Stripe checkout · One-time payment · No subscription</p>
+        <p class="review-fine">Stripe may show BillSavings AI as the connected business account. Your report appears here after payment. Open it in the same browser and save or print a copy. No phone number required.</p>
         <p id="reviewStatus" class="review-status" role="status" aria-live="polite"></p>
       </form>
     </section>
