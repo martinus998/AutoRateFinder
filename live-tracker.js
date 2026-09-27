@@ -52,6 +52,32 @@
       });
     }catch{}
   }
+
+  function funnel(event){
+    try{
+      fetch(endpoint,{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({
+          site:'autoratefinder',
+          visitor_id:visitorId,
+          session_id:sessionId,
+          path:location.pathname,
+          event
+        }),
+        keepalive:true
+      }).catch(()=>{});
+    }catch{}
+  }
+  window.AutoRateFunnel={track:funnel};
+  document.addEventListener('focusin',e=>{
+    if(e.target && e.target.closest && e.target.closest('#reviewForm')) funnel('tool_start');
+  },{once:true});
+  document.addEventListener('click',e=>{
+    if(e.target && e.target.closest && e.target.closest('#reviewPay')) funnel('checkout_start');
+  },true);
+  if(new URLSearchParams(location.search).has('session_id')) funnel('checkout_return');
+
   function markActive(){lastActivity=Date.now();if(document.visibilityState==='visible'&&Date.now()-lastPing>25000)void ping(false);}
   function first(){if(!sentView){sentView=true;lastActivity=Date.now();void ping(true);}}
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',first,{once:true}); else first();
