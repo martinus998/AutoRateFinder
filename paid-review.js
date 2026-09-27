@@ -6,7 +6,6 @@
   const status = document.getElementById('reviewStatus');
   const pay = document.getElementById('reviewPay');
   const reportArea = document.getElementById('reviewReport');
-  const states = 'AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY DC'.split(' ');
   const stateSelect = document.getElementById('reviewState');
   const preview = document.getElementById('freePreview');
   const money = value => Number.isFinite(value) ? '
@@ -79,7 +78,6 @@
   document.getElementById('printReport').addEventListener('click', () => window.print());
 })();
  + value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '—';
-  states.forEach(abbr => { const option = document.createElement('option'); option.value = abbr; option.textContent = abbr; stateSelect.append(option); });
   const message = text => { status.textContent = text; };
   let previewTracked = false;
   const updatePreview = () => {
