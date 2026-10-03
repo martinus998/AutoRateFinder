@@ -1,7 +1,12 @@
 (() => {
   const endpoint='https://bkyuyqicybqqifenhhux.supabase.co/functions/v1/live-analytics/collect';
   let owner=false;
-  try{owner=localStorage.getItem('autoratefinder_owner_device')==='1';}catch{}
+  try{
+    const params=new URLSearchParams(location.search);
+    if(params.get('owner')==='1')localStorage.setItem('autoratefinder_owner_device','1');
+    if(params.get('owner')==='0')localStorage.removeItem('autoratefinder_owner_device');
+    owner=localStorage.getItem('autoratefinder_owner_device')==='1';
+  }catch{}
   if(owner) return;
   if(!crypto?.randomUUID) return;
   const getId=(storage,key)=>{
