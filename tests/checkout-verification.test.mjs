@@ -1,0 +1,7 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {validAutoSession,autoState,validSession} from '../supabase/functions/autorate-payments/verification.mjs';
+const s={id:'cs_live_syntheticSession123456789',livemode:true,mode:'payment',currency:'usd',amount_total:199,status:'complete',payment_status:'paid',client_reference_id:'original-order',metadata:{app:'autoratefinder',order_id:'original-order',price_version:'us-low-20261003'}};
+test('the new price unlocks only a completed payment bound to its original order',()=>{assert.equal(validSession(s,'original-order'),true);assert.equal(validSession(s,'other-order'),false);for(const patch of [{status:'open'},{payment_status:'unpaid'},{amount_total:198},{currency:'eur'},{livemode:false}])assert.equal(validSession({...s,...patch},'original-order'),false);});
+test('previous paid 299 purchases still open their original report',()=>{assert.equal(validSession({...s,amount_total:299,metadata:{app:'autoratefinder',order_id:'original-order'}},'original-order'),true);assert.equal(validAutoSession({...s,amount_total:299}),false);});
+test('pending, expired and unpaid-completed checkouts never report paid status',()=>{for(const [patch,state]of [[{status:'open',payment_status:'unpaid'},'open'],[{status:'expired',payment_status:'unpaid'},'expired'],[{status:'complete',payment_status:'unpaid'},'processing']])assert.equal(autoState({...s,...patch}),state);});

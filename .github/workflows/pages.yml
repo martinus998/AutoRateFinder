@@ -32,7 +32,9 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p _site
-          cp index.html style.css dense-v3.css app.js analytics.js partner-integration.js live-tracker.js favicon.svg autorate-road-bg.jpg robots.txt sitemap.xml privacy.html terms.html disclosure.html compare-car-insurance.html car-insurance-discounts.html car-insurance-deductible-guide.html car-insurance-quotes.html cheap-car-insurance.html car-insurance-rates-by-zip-code.html full-coverage-car-insurance.html _site/
+          for f in *.html *.css *.js *.svg *.txt *.xml *.jpg; do
+            if [ -f "$f" ]; then cp "$f" _site/; fi
+          done
           python3 - <<'PY'
           from pathlib import Path
           import re
@@ -110,3 +112,4 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+

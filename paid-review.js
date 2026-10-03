@@ -47,28 +47,29 @@
     track('result_view');
     reportArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    if (!form.reportValidity()) return;
-    const values = new FormData(form);
-    const profile = Object.fromEntries(values.entries());
-    profile.extras = values.getAll('extras');
-    try { sessionStorage.setItem(DRAFT, JSON.stringify({ profile, expires: Date.now() + 86400000 })); } catch {}
-    track('plan_select');
-    pay.disabled = true;
-    message('Preparing secure Stripe checkout…');
-    try {
-      const data = await call({ action: 'checkout', profile });
-      const target = new URL(data.url);
-      if (target.origin !== 'https://checkout.stripe.com' || target.username || target.password || !/^\/c\/pay\/cs_live_[A-Za-z0-9_]+/.test(target.pathname) || !/^[a-f0-9-]{36}$/i.test(data.order || '') || !/^[a-f0-9]{64}$/.test(data.token || '')) throw new Error('invalid_checkout');
-      localStorage.setItem(STORE, JSON.stringify({ order: data.order, token: data.token }));
-      track('checkout_start');
-      window.location.assign(target.href);
-    } catch (err) {
-      message(err.message === 'invalid_profile' ? 'Please check the ZIP, vehicle and prices you entered.' : 'Checkout is temporarily unavailable. You have not been charged. Please try again.');
-      pay.disabled = false;
-    }
+  const qrButton=document.getElementById('reviewQr');
+  const qr=new PaymentQr({key:'autoratefinder.qr.v1',choices:{review:{amount:199,label:'Your quote review'}},note:'Your report opens in the original browser where you entered your quote. Return here after paying.',
+    create:async draft=>{const savedDraft=JSON.parse(sessionStorage.getItem(DRAFT)||'null');if(!savedDraft?.profile)throw new Error('invalid_profile');const d=await call({action:'checkout',profile:savedDraft.profile,attempt:draft.attempt,token:draft.token,checkout_channel:'qr'});localStorage.setItem(STORE,JSON.stringify({order:d.order,token:d.token,session:d.session_id}));return d;},
+    status:(action,p)=>{const o=saved();if(!o?.order||o.token!==p.token)throw new Error('invalid_access');return call({action,order:o.order,token:o.token,session_id:p.session_id});},
+    onPaid:async data=>{if(!data.report)throw new Error('report_unavailable');showReport(data.report);message('Payment confirmed. Your report is ready.');pay.disabled=false;qrButton.disabled=false;},
+    onCancelled:()=>{pay.disabled=false;qrButton.disabled=false;message('Checkout cancelled. Your quote is saved.');}
   });
+  let creating=false;
+  async function checkout(byQr=false){
+    if(qr.hasPending)return qr.resume();if(creating)return;if(!form.reportValidity())return;
+    const values=new FormData(form),profile=Object.fromEntries(values.entries());profile.extras=values.getAll('extras');
+    try{sessionStorage.setItem(DRAFT,JSON.stringify({profile,expires:Date.now()+86400000}));}catch{}
+    track('plan_select');creating=true;pay.disabled=true;qrButton.disabled=true;message(byQr?'Preparing QR checkout…':'Preparing secure Stripe checkout…');
+    try {
+      if(byQr){await qr.prepare('review');pay.disabled=false;qrButton.disabled=false;return;}
+      const key='autorate_checkout_request_v1';let attempt;try{attempt=JSON.parse(sessionStorage.getItem(key)||'null');}catch{}
+      if(!attempt||attempt.expires<Date.now()||JSON.stringify(attempt.profile)!==JSON.stringify(profile)){attempt={attempt:crypto.randomUUID(),token:Array.from(crypto.getRandomValues(new Uint8Array(32)),b=>b.toString(16).padStart(2,'0')).join(''),profile,expires:Date.now()+1800000};sessionStorage.setItem(key,JSON.stringify(attempt));}
+      const data=await call({action:'checkout',profile,attempt:attempt.attempt,token:attempt.token});const target=new URL(data.url);
+      if(target.origin!=='https://checkout.stripe.com'||target.username||target.password||target.pathname!=='/c/pay/'+data.session_id||!/^[a-f0-9-]{36}$/i.test(data.order||'')||!/^[a-f0-9]{64}$/.test(data.token||''))throw new Error('invalid_checkout');
+      localStorage.setItem(STORE,JSON.stringify({order:data.order,token:data.token,session:data.session_id}));track('checkout_start');location.assign(target.href);
+    }catch(err){if(err.message==='order_expired')sessionStorage.removeItem('autorate_checkout_request_v1');message(err.message==='invalid_profile'?'Please check the ZIP, vehicle and prices you entered.':'Checkout confirmation is temporarily unavailable. Retry the same request before paying again.');pay.disabled=false;qrButton.disabled=false;}finally{creating=false;}
+  }
+  form.addEventListener('submit',e=>{e.preventDefault();void checkout();});qrButton.addEventListener('click',()=>void checkout(true));
   const params = new URLSearchParams(location.search);
   let order = saved();
   const returnedSession = params.get('session_id');
@@ -91,6 +92,7 @@
         try {
           const data = await call({ action: session ? 'verify' : 'report', order: order.order, token: order.token, ...(session ? { session_id: session } : {}) });
           showReport(data.report);
+          qr.clear();document.getElementById('paymentQrDialog')?.close();sessionStorage.removeItem('autorate_checkout_request_v1');
           if (session) {
             track('checkout_return');
             try { localStorage.setItem(STORE, JSON.stringify({ order: order.order, token: order.token })); } catch {}
@@ -110,5 +112,6 @@
   } else if (session) {
     message('Open this page in the same browser where you started checkout to view your paid report. If you paid, contact support for help.');
   }
+  if(qr.hasPending)void qr.resume();
   document.getElementById('printReport').addEventListener('click', () => window.print());
 })();

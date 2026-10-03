@@ -104,7 +104,7 @@
     bar.id = 'arfMobilePaidCta';
     bar.setAttribute('role','region');
     bar.setAttribute('aria-label','Quote review');
-    bar.innerHTML = '<span><b>Already have a quote?</b><small>Full review · one-time $2.99</small></span><a href="/?utm_source=mobile_seo_cta&utm_medium=internal&utm_campaign=paid_quote_review#reviewForm">Review it →</a>';
+    bar.innerHTML = '<span><b>Already have a quote?</b><small>Full review · one-time $1.99</small></span><a href="/?utm_source=mobile_seo_cta&utm_medium=internal&utm_campaign=paid_quote_review#reviewForm">Review it →</a>';
     Object.assign(bar.style,{
       position:'fixed',left:'10px',right:'10px',bottom:'10px',zIndex:'9998',
       display:'flex',alignItems:'center',justifyContent:'space-between',gap:'10px',
