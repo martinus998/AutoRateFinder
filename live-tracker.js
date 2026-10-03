@@ -70,13 +70,15 @@
     }catch{}
   }
   window.AutoRateFunnel={track:funnel};
-  document.addEventListener('focusin',e=>{
-    if(e.target && e.target.closest && e.target.closest('#reviewForm')) funnel('tool_start');
-  },{once:true});
-  document.addEventListener('click',e=>{
-    if(e.target && e.target.closest && e.target.closest('#reviewPay')) funnel('checkout_start');
-  },true);
-  if(new URLSearchParams(location.search).has('session_id')) funnel('checkout_return');
+  function firstFormFocus(e){
+    if(e.target && e.target.closest && e.target.closest('#reviewForm')) {
+      funnel('tool_start');
+      document.removeEventListener('focusin',firstFormFocus);
+    }
+  }
+  document.addEventListener('focusin',firstFormFocus);
+  // Checkout and paid return events come from paid-review.js after successful
+  // server responses. Clicking an invalid form is not an opened checkout.
 
 
   const seoPaidPages = new Set([
@@ -133,7 +135,7 @@
 (() => {
   if (document.querySelector('script[data-fast-checkout-labels]')) return;
   const wallets = document.createElement('script');
-  wallets.src = '/fast-checkout-labels.js?v=20260925-wallets1';
+  wallets.src = '/fast-checkout-labels.js?v=20261003';
   wallets.dataset.fastCheckoutLabels = '1';
   document.head.append(wallets);
 })();

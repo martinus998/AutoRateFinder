@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en-US">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -112,9 +112,9 @@ footer{background:rgba(2,18,37,.86)!important}
 </style>
 <link rel="stylesheet" href="paid-review.css?v=1">
 <script type="application/ld+json">
-{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.getautoratefinder.com/#organization","name":"AutoRateFinder","url":"https://www.getautoratefinder.com/"},{"@type":"WebSite","@id":"https://www.getautoratefinder.com/#website","url":"https://www.getautoratefinder.com/","name":"AutoRateFinder","publisher":{"@id":"https://www.getautoratefinder.com/#organization"},"inLanguage":"en-US"},{"@type":"WebApplication","@id":"https://www.getautoratefinder.com/#app","name":"AutoRateFinder","url":"https://www.getautoratefinder.com/","applicationCategory":"FinanceApplication","operatingSystem":"Web","description":"Educational tool for reviewing a car insurance quote entered by the user, including premium, deductible and comparison questions.","areaServed":"US","offers":{"@type":"Offer","price":"2.99","priceCurrency":"USD"}}]}
+{"@context":"https://schema.org","@graph":[{"@type":"Organization","@id":"https://www.getautoratefinder.com/#organization","name":"AutoRateFinder","url":"https://www.getautoratefinder.com/"},{"@type":"WebSite","@id":"https://www.getautoratefinder.com/#website","url":"https://www.getautoratefinder.com/","name":"AutoRateFinder","publisher":{"@id":"https://www.getautoratefinder.com/#organization"},"inLanguage":"en-US"},{"@type":"WebApplication","@id":"https://www.getautoratefinder.com/#app","name":"AutoRateFinder","url":"https://www.getautoratefinder.com/","applicationCategory":"FinanceApplication","operatingSystem":"Web","description":"Educational tool for reviewing a car insurance quote entered by the user, including premium, deductible and comparison questions.","areaServed":"US","offers":{"@type":"Offer","price":"2.99","priceCurrency":"USD"}},{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Do you find a new insurance quote for me?","acceptedAnswer":{"@type":"Answer","text":"No. Enter a quote you already have. The review uses your numbers to show annual cost, deductible questions and a comparison checklist. It does not retrieve insurer offers or sell insurance."}},{"@type":"Question","name":"Is the $2.99 payment recurring?","acceptedAnswer":{"@type":"Answer","text":"No. The full personalized report costs $2.99 once in USD. There is no monthly subscription."}},{"@type":"Question","name":"When does my personal report appear?","acceptedAnswer":{"@type":"Answer","text":"After Stripe payment is verified, return here in the same browser to open your report. Save or print a copy. If you cancel checkout, your quote inputs stay in the same tab for up to 24 hours."}},{"@type":"Question","name":"What if I paid but cannot open my report?","acceptedAnswer":{"@type":"Answer","text":"Use the retry verification button when shown. Contact support at autoratefinderpartnerships@gmail.com if you still need help. Include the checkout email and never send card details."}}]}]}
 </script>
-</head>
+<link rel="alternate" hreflang="en-US" href="https://www.getautoratefinder.com/"><link rel="alternate" hreflang="x-default" href="https://www.getautoratefinder.com/"><link rel="stylesheet" href="purchase-clarity.css?v=20261003"></head>
 <body>
 <header class="site-header review-header">
   <a class="brand" href="/"><span class="brand-mark">AR</span><span><strong>AutoRate<span>Finder</span></strong><small>Understand your insurance quote</small></span></a>
@@ -136,6 +136,7 @@ footer{background:rgba(2,18,37,.86)!important}
         <span>Second-quote comparison when entered</span>
       </div>
       <p class="review-fine">This educational review uses the numbers you enter. It does not fetch insurer prices, sell insurance or promise a lower rate.</p>
+<section id="quote-example" class="purchase-example" aria-labelledby="autoExampleTitle"><span class="purchase-label">Illustrative sample · fictional quotes</span><h2 id="autoExampleTitle">See the report format before you pay.</h2><details><summary>Open a sample quote comparison</summary><div class="purchase-metrics"><div><small>Monthly price entered</small><strong>$185</strong></div><div><small>12-month total</small><strong>$2,220</strong></div><div><small>Deductible entered</small><strong>$500</strong></div></div><p>A second fictional quote is $169/month with a $1,000 deductible. Its 12-month premium is $2,028: a $192 premium difference, with a $500 higher deductible.</p><p><strong>Question to ask:</strong> “Do both quotes have the same liability limits, collision and comprehensive coverage, exclusions and fees?” A lower premium alone does not make the coverage equivalent. Confirm the details with your insurer or licensed agent.</p><p>Fictional inputs only. These are not available insurer quotes or a recommendation to change your coverage.</p></details><p class="purchase-price">Your personal report · $2.99 once. No subscription.</p><a class="purchase-cta" href="#reviewForm">Review my own quote →</a></section>
     </section>
     <section class="review-card" aria-labelledby="formHeading">
       <h2 id="formHeading">Review your quote</h2>
@@ -163,6 +164,7 @@ footer{background:rgba(2,18,37,.86)!important}
         <button class="review-pay" id="reviewPay" type="submit">Continue to secure payment · $2.99 →</button>
         <p class="checkout-trust">🔒 Secure Stripe checkout · One-time payment · No subscription</p>
         <p class="review-fine">Stripe checkout shows the item “AutoRateFinder · Your quote review” for $2.99. Your report appears here after payment. Open it in the same browser and save or print a copy. No phone number or subscription required.</p>
+        <button id="reviewRetry" type="button" class="review-retry" hidden>Retry payment verification</button>
         <p id="reviewStatus" class="review-status" role="status" aria-live="polite"></p>
       </form>
     </section>
@@ -176,6 +178,7 @@ footer{background:rgba(2,18,37,.86)!important}
     <button id="printReport" type="button">Save or print my report</button>
   </section>
   <section id="how" class="review-explainer"><div class="review-info"><b>1 · Enter your actual quote</b><p>Your car, ZIP, monthly premium and deductible. No insurer account or phone number needed.</p></div><div class="review-info"><b>2 · Pay once</b><p>Stripe handles the $2.99 checkout. The report unlocks only after a verified payment.</p></div><div class="review-info"><b>3 · Compare with clarity</b><p>See your annual cost, deductible questions and a checklist for comparing the same coverage.</p></div></section>
+<section class="purchase-faq" aria-label="Purchase questions"><h2>Before you pay</h2><details><summary>Do you find a new insurance quote for me?</summary><p>No. Enter a quote you already have. The review uses your numbers to show annual cost, deductible questions and a comparison checklist. It does not retrieve insurer offers or sell insurance.</p></details><details><summary>Is the $2.99 payment recurring?</summary><p>No. The full personalized report costs $2.99 once in USD. There is no monthly subscription.</p></details><details><summary>When does my personal report appear?</summary><p>After Stripe payment is verified, return here in the same browser to open your report. Save or print a copy. If you cancel checkout, your quote inputs stay in the same tab for up to 24 hours.</p></details><details><summary>What if I paid but cannot open my report?</summary><p>Use the retry verification button when shown. Contact support at autoratefinderpartnerships@gmail.com if you still need help. Include the checkout email and never send card details.</p></details></section>
 </main>
 <section aria-label="Free car insurance tools" style="max-width:1040px;margin:20px auto;padding:18px;border:1px solid rgba(84,232,183,.34);border-radius:16px;background:linear-gradient(180deg,rgba(7,31,61,.78),rgba(4,23,45,.86))">
 <div style="font-size:10px;letter-spacing:.12em;color:#58e9b8;font-weight:900">FREE TOOL</div>
@@ -184,5 +187,6 @@ footer{background:rgba(2,18,37,.86)!important}
 <p style="margin:0"><a href="/car-insurance-renewal-increase-checker.html" style="color:#69edbf;font-weight:900">Check my renewal increase →</a> · <a href="/why-did-my-car-insurance-go-up.html" style="color:#8dcbf3">Why did my car insurance go up?</a></p>
 </section>
 <footer class="review-footer">AutoRateFinder provides educational information, not insurance sales or individual policy advice. <a href="car-insurance-quote-review.html">Quote Review Guide</a> · <a href="terms.html">Terms</a> · <a href="privacy.html">Privacy</a> · <a href="mailto:autoratefinderpartnerships@gmail.com">Support</a></footer>
-<script src="paid-review.js?v=3"></script><script src="live-tracker.js"></script>
+<script src="paid-review.js?v=20261003"></script><script src="live-tracker.js?v=20261003"></script>
 </body></html>
+
