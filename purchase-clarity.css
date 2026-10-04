@@ -14,3 +14,132 @@
 .review-copy .purchase-example{padding:15px;margin-top:17px}.review-copy .purchase-example h2{font-size:22px}.review-copy .purchase-example p{font-size:13px}
 @media(max-width:600px){.purchase-example,.purchase-faq{padding:17px;margin:16px 0}.purchase-example p,.purchase-faq p,.purchase-example li{font-size:14px}.purchase-metrics{grid-template-columns:1fr}.purchase-metrics div{display:flex;justify-content:space-between;align-items:center}.purchase-metrics strong{margin:0}.purchase-example summary,.purchase-faq summary{min-height:44px}}
 @media print{.purchase-example,.purchase-faq,.review-retry{display:none!important}}
+
+/* Compact homepage hierarchy — 2026-10-04. Homepage selectors only.
+   Existing background art, checkout controls, prices and paid reports unchanged. */
+@media screen {
+ main.review-page,main.pro-shell{display:flex;flex-direction:column;gap:16px}
+ /* Immediate fallback while the existing presentation script loads. */
+ main.review-page:not([data-home-layout])>#homepage-offer,
+ main.pro-shell:not([data-home-layout])>#homepage-offer{order:20}
+ .review-page .review-layout{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:26px;align-items:start;margin-top:0}
+ .review-page .review-copy{min-width:0;padding:12px 0 0;text-shadow:none}
+ .review-page .review-copy h1{font-size:clamp(34px,4vw,48px);line-height:1.09;letter-spacing:-.035em;margin:10px 0 12px}
+ .review-page .review-copy>p{font-size:16px;line-height:1.5;margin:0 0 12px}
+ .review-page .review-copy>.review-fine{font-size:13px;line-height:1.5;margin:10px 0 0}
+ .review-page .review-points[hidden]{display:none!important}
+ .review-page .review-kicker{font-size:12px;line-height:1.4;letter-spacing:.08em}
+ .review-page .value-proof{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;margin:12px 0 8px;padding:12px}
+ .review-page .value-proof strong{grid-column:1/-1;font-size:14px}
+ .review-page .value-proof span{font-size:13px;line-height:1.45}
+ .home-actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px 14px;margin:10px 0}
+ .home-actions .home-primary,.home-actions .home-secondary{display:inline-flex;align-items:center;justify-content:center;min-height:48px;box-sizing:border-box;font-size:15px;font-weight:800;line-height:1.35;text-decoration:none;white-space:normal}
+ .home-actions .home-primary{padding:12px 16px;border-radius:11px;background:#ff9b3d;color:#102033;box-shadow:none}
+ .home-actions .home-secondary{color:#b5f5df;padding:8px 4px;text-decoration:underline;text-underline-offset:4px}
+ .home-actions a:focus-visible,.compact-home summary:focus-visible{outline:3px solid #73e8c4;outline-offset:3px}
+ .review-page .review-card{min-width:0;padding:20px;border-radius:18px}
+ .review-page .review-card h2{font-size:24px;margin:0 0 5px}
+ .review-page .review-card>.subtitle{font-size:14px;line-height:1.45;margin:0 0 12px}
+ .review-page .review-fields{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .review-page .review-fields label{font-size:13px;line-height:1.35}
+ .review-page .review-fields input,.review-page .review-fields select{height:46px;font-size:16px;padding:0 10px}
+ .review-page .review-section-label{font-size:12px;margin:14px 0 8px;line-height:1.35}
+ .review-page .home-extras>.review-section-label{display:none}
+ .review-page .review-optional>summary{min-height:44px;box-sizing:border-box;padding:11px 0;font-size:14px;line-height:1.5;cursor:pointer}
+ .review-page .review-extras{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+ .review-page .review-extras label{min-height:44px;box-sizing:border-box;font-size:13px}
+ .review-page .review-explainer{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0}
+ .review-page .review-info{padding:14px}.review-page .review-info p{font-size:14px}
+ .home-more-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:start;min-width:0}
+ .home-more-grid>*{min-width:0;margin:0!important;width:100%;box-sizing:border-box}
+ .compact-home #homepage-offer{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 14px;margin:0;padding:12px 16px;max-width:none;width:100%;border-radius:14px;box-sizing:border-box;box-shadow:none}
+ .compact-home #homepage-offer .offer-title{display:none} /* Repeats the price and service already in offer-detail. */
+ .compact-home #homepage-offer .offer-label{font-size:11px;margin:0 0 5px;padding:4px 7px;line-height:1.4;white-space:normal}
+ .compact-home #homepage-offer .offer-detail{font-size:13px;line-height:1.5;margin:0}
+ .compact-home #homepage-offer .offer-action{min-height:44px;max-width:190px;padding:10px 12px;width:auto;font-size:14px;white-space:normal;text-align:center}
+ .home-offer-details>summary{font-size:12px;min-height:44px;box-sizing:border-box;padding:12px 0;line-height:1.5;cursor:pointer;color:#c1d4e4}
+ .compact-home #homepage-offer .offer-note{font-size:12px;line-height:1.5}
+ .compact-home #homepage-offer .home-qr-link{grid-column:2;justify-self:stretch;min-height:44px;box-sizing:border-box;margin:0;padding:10px;font-size:13px;line-height:1.5;text-align:center;width:auto;white-space:normal}
+ .compact-home #homepage-offer .hero-pro-link{margin:8px 0 0;display:block}
+ .home-sample{padding:12px 16px!important;margin:0!important}
+ .home-sample>h2{position:absolute!important;width:1px;height:1px;padding:0!important;margin:-1px!important;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0}
+ .home-sample>.purchase-label{display:block;font-size:11px;line-height:1.5;margin-bottom:7px}
+ .home-sample>details{padding:0;border-top:1px solid #31536c}
+ .home-sample>details>summary{min-height:48px;padding:12px 0;box-sizing:border-box;font-size:15px;line-height:1.5}
+ .home-sample .purchase-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .home-sample .purchase-metrics div{display:block;min-width:0;padding:10px 8px}
+ .home-sample .purchase-metrics small{font-size:12px;line-height:1.4}
+ .home-sample .purchase-metrics strong{font-size:20px;margin-top:4px}
+ .home-sample p,.home-sample li{font-size:14px!important;line-height:1.55}
+ .pro-shell .pro-hero{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:24px;padding:24px;margin:0;align-items:center;min-height:0}
+ .pro-shell .pro-hero .hero-copy{min-width:0;width:auto!important;padding:0!important}
+ .pro-shell .pro-hero .hero-copy h1{font-size:clamp(34px,4vw,48px)!important;line-height:1.1!important;margin:10px 0 12px!important;letter-spacing:-.035em}
+ .pro-shell .pro-hero .hero-copy>p{font-size:16px!important;line-height:1.5!important;margin:0 0 14px!important}
+ .pro-shell .hero-brand-stamp{margin:0 0 8px;gap:8px}
+ .pro-shell .hero-brand-stamp .eyebrow{font-size:11px!important;line-height:1.5!important}
+ .pro-shell .pro-hero .hero-actions{display:flex!important;flex-wrap:wrap;gap:8px!important;align-items:center}
+ .pro-shell .pro-hero .hero-actions .btn{min-height:48px!important;padding:12px 15px!important;font-size:15px!important;line-height:1.4!important;width:auto;box-sizing:border-box}
+ .pro-shell .pro-hero .hero-actions a.secondary{border:0!important;background:transparent!important;box-shadow:none!important;padding:10px 4px!important;text-decoration:underline;color:inherit}
+ .pro-shell .pro-hero .trust-points{display:flex;flex-wrap:wrap;gap:6px 12px;margin:10px 0 0}
+ .pro-shell .pro-hero .trust-points span{font-size:12px!important;padding:3px 0!important;line-height:1.5!important;min-height:0!important}
+ .pro-shell .snapshot-card{min-width:0;padding:16px!important;margin:0}
+ .pro-shell .home-quick-title{position:relative;z-index:2;font-size:20px;margin:0 0 12px;line-height:1.25;color:inherit}
+ .pro-shell .snapshot-card .mini-issues{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:0}
+ .pro-shell .snapshot-card .mini-issue{min-height:56px;padding:10px;font-size:15px;line-height:1.4;display:flex;gap:10px;align-items:center;justify-content:flex-start}
+ .pro-shell .snapshot-card .mini-issue b{font-size:14px;white-space:normal}
+ .home-cost-details{position:relative;z-index:2;margin-top:8px}.home-cost-details>summary,.home-plan-details>summary,.home-guides-details>summary{min-height:44px;box-sizing:border-box;padding:11px 0;line-height:1.5;font-size:14px;cursor:pointer}
+ .pro-shell .pro-info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:16px;margin:0}
+ .pro-shell .pro-problems{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+ .pro-shell .pro-problems .problem-card{min-width:0}
+ .pro-shell .home-more-grid .pro-package-preview{padding:16px}
+ .pro-shell .home-more-grid .pro-package-head{display:block}
+ .pro-shell .home-more-grid .pro-package-head h2{font-size:23px;line-height:1.25}
+ .pro-shell .home-more-grid .pro-package-head p{font-size:14px;line-height:1.5}
+ .pro-shell .home-more-grid .pro-package-badge{display:inline-block;font-size:11px;margin:8px 0}
+ .pro-shell .home-more-grid .pro-package-body{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+ .pro-shell .home-more-grid .plan-card{min-width:0;padding:12px}
+ .pro-shell .home-more-grid .plan-card-head{flex-wrap:wrap;gap:6px}
+ .pro-shell .home-more-grid .plan-card-head b,.pro-shell .home-more-grid .plan-card-head span{font-size:14px;line-height:1.5}
+ .pro-shell .home-more-grid .plan-list li{font-size:14px;line-height:1.5}
+ .compact-home .site-header{min-height:64px;height:auto!important;box-sizing:border-box;gap:12px;padding:10px 16px!important}
+ .compact-home .site-header .brand{min-width:0;gap:9px}
+ .compact-home .site-header .brand-mark{width:40px!important;height:40px!important;flex-shrink:0}
+ .compact-home .site-header .brand strong{font-size:20px!important;line-height:1.2}
+ .compact-home .site-header .brand small{font-size:11px!important;line-height:1.35}
+ .compact-home .site-header>.btn{min-height:44px!important;font-size:13px!important;line-height:1.3!important;padding:10px 12px!important;white-space:normal;text-align:center;box-sizing:border-box}
+ .compact-home .skip-link:not(:focus){position:absolute!important;left:0;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+ .compact-home .skip-link:focus{position:fixed!important;top:6px;left:6px;z-index:9999;padding:10px;background:#fff;color:#102033;clip-path:none}
+ .compact-home #reviewForm,.compact-home #quote-example,.compact-home #pro-example,.compact-home #problems{scroll-margin-top:100px}
+ @media(max-width:1000px){.home-more-grid{grid-template-columns:1fr}.pro-shell .pro-hero{gap:18px}}
+ @media(max-width:850px){
+  .review-page .review-layout{grid-template-columns:1fr;gap:16px}.review-page .review-copy{padding:0}
+  .review-page .review-explainer{grid-template-columns:1fr 1fr}.review-page .review-header nav{display:none}
+  .pro-shell .pro-hero{grid-template-columns:1fr!important;gap:16px!important;padding:18px!important}
+  .pro-shell .pro-info-grid{grid-template-columns:1fr!important}.pro-shell .pro-problems{grid-template-columns:1fr 1fr}
+  .compact-home .site-header nav{display:none}
+ }
+ @media(max-width:600px){
+  main.review-page{padding:14px 12px 24px}main.pro-shell{width:calc(100% - 24px);padding-top:14px}
+  .review-page .review-copy h1,.pro-shell .pro-hero .hero-copy h1{font-size:34px!important;line-height:1.1!important;margin:8px 0 10px!important}
+  .review-page .review-copy>p,.pro-shell .pro-hero .hero-copy>p{font-size:15px!important;line-height:1.5!important}
+  .review-page .review-copy>.review-fine{font-size:13px!important}
+  .review-page .review-card{padding:16px}.review-page .value-proof{padding:10px;gap:8px}
+  .review-page .review-explainer{grid-template-columns:1fr}
+  .pro-shell .hero-brand-stamp .hero-mark{display:none}
+  .compact-home #homepage-offer{padding:12px;gap:8px 10px}
+  .compact-home #homepage-offer .offer-action{max-width:130px;font-size:13px;padding:10px}
+  .compact-home .site-header{gap:8px;padding:10px 12px!important}
+  .compact-home .site-header .brand strong{font-size:18px!important}.compact-home .site-header .brand small{display:none}
+  .compact-home .site-header>.btn{max-width:124px;font-size:12px!important}
+ }
+ @media(max-width:360px){
+  .compact-home .site-header .brand-mark{width:32px!important;height:32px!important}
+  .compact-home .site-header .brand strong{font-size:16px!important}
+  .compact-home .site-header>.btn{max-width:100px;font-size:11px!important;padding:8px!important}
+  .home-actions{gap:4px 12px}.home-actions .home-primary{font-size:14px;padding:10px 12px}
+  .review-page .review-copy h1,.pro-shell .pro-hero .hero-copy h1{font-size:30px!important}
+  .pro-shell .home-more-grid .pro-package-body{grid-template-columns:1fr}
+  .home-sample .purchase-metrics{grid-template-columns:1fr}
+ }
+ @media(prefers-reduced-motion:reduce){.compact-home{scroll-behavior:auto}}
+}

@@ -86,3 +86,154 @@
   else mount();
 })();
 
+// Homepage hierarchy, 2026-10-04. Presentation only; does not call payment APIs,
+// inspect form values, alter prices, storage, analytics or paid-access rules.
+// Existing nodes are moved (not cloned), preserving IDs and event handlers.
+(() => {
+  'use strict';
+  function mountHomeLayout() {
+    if (!['/', '/index.html'].includes(location.pathname)) return;
+    const auto = document.querySelector('main.review-page');
+    const repair = document.querySelector('main.pro-shell');
+    const main = auto || repair;
+    if (!main || main.dataset.homeLayout === 'compact-v1') return;
+    const hero = main.querySelector(auto ? '.review-layout' : '.pro-hero');
+    if (!hero) return;
+    main.dataset.homeLayout = 'compact-v1';
+    document.body.classList.add('compact-home');
+
+    // Put the service ahead of the offer in both visual and keyboard order.
+    main.prepend(hero);
+    const offer = main.querySelector('#homepage-offer');
+    const sample = main.querySelector(auto ? '#quote-example' : '#pro-example');
+    function foldSample(section, title) {
+      if (!section) return;
+      const details = section.querySelector(':scope > details');
+      const summary = details && details.querySelector(':scope > summary');
+      if (!details || !summary) return;
+      const children = Array.from(section.children);
+      const pivot = children.indexOf(details);
+      const body = el => !el.matches('h2,.purchase-label,details');
+      const intro = children.slice(0, pivot).filter(body);
+      const tail = children.slice(pivot + 1).filter(body);
+      let previous = summary;
+      for (const el of intro) { previous.after(el); previous = el; }
+      tail.forEach(el => details.append(el));
+      summary.textContent = title;
+      section.classList.add('home-sample');
+    }
+    foldSample(sample, auto ? 'View a sample report' : 'View a sample quote checklist');
+    if (offer) {
+      const note = offer.querySelector('.offer-note');
+      if (note) {
+        const more = document.createElement('details');
+        more.className = 'home-offer-details';
+        const summary = document.createElement('summary');
+        summary.textContent = 'Offer details';
+        note.before(more); more.append(summary, note);
+      }
+    }
+
+    if (auto) {
+      const copy = hero.querySelector('.review-copy');
+      const intro = copy && copy.querySelector(':scope > p:not(.review-fine)');
+      if (intro) intro.textContent = 'See your yearly cost, deductible trade-offs and questions to ask — using the insurance quote you already have.';
+      const proof = copy && copy.querySelector('.value-proof');
+      const points = copy && copy.querySelector('.review-points');
+      if (proof && points) points.hidden = true; // Duplicate benefit list, not functionality.
+      if (copy) {
+        const actions = document.createElement('div');
+        actions.className = 'home-actions';
+        const start = document.createElement('a');
+        start.className = 'home-primary'; start.href = '#reviewForm';
+        const price = main.querySelector('.review-price strong');
+        start.textContent = price ? 'Review my quote · ' + price.textContent.trim() + ' →' : 'Enter my quote details →';
+        const preview = document.createElement('a');
+        preview.className = 'home-secondary'; preview.href = '#quote-example'; preview.textContent = 'View sample';
+        actions.append(start, preview);
+        if (intro) intro.after(actions); else copy.append(actions);
+      }
+      const subtitle = hero.querySelector('.review-card > .subtitle');
+      if (subtitle) subtitle.textContent = 'Enter the quote you received. Your personal report unlocks after payment.';
+      const more = document.createElement('div'); more.className = 'home-more-grid';
+      if (offer) more.append(offer);
+      if (sample) more.append(sample);
+      if (more.children.length) hero.after(more);
+      const extras = main.querySelector('#reviewForm .review-extras');
+      if (extras && !extras.closest('details')) {
+        const details = document.createElement('details'); details.className = 'review-optional home-extras';
+        const summary = document.createElement('summary'); summary.textContent = 'Coverage extras (optional)';
+        const label = extras.previousElementSibling;
+        extras.before(details); details.append(summary, extras);
+        if (label && label.classList.contains('review-section-label')) details.append(label);
+      }
+    } else {
+      const copy = hero.querySelector('.hero-copy');
+      const intro = copy && copy.querySelector(':scope > p');
+      if (intro) intro.textContent = 'Describe cracks, water or uneven floors. Get a planning cost range and the next steps before you hire.';
+      const start = copy && copy.querySelector('.hero-actions .js-start');
+      if (start) start.textContent = 'Start free check →';
+      const calculator = copy && copy.querySelector('.hero-actions a.secondary');
+      if (calculator) calculator.textContent = 'Cost calculator';
+      if (offer) {
+        hero.after(offer);
+        const qr = copy && copy.querySelector(':scope > .qr-entry');
+        if (qr) { qr.classList.add('home-qr-link'); offer.append(qr); }
+        const proLink = copy && copy.querySelector(':scope > .hero-pro-link');
+        const more = offer.querySelector('.home-offer-details');
+        if (proLink && more) more.append(proLink);
+      }
+      const snapshot = hero.querySelector('.snapshot-card');
+      const issues = snapshot && snapshot.querySelector('.mini-issues');
+      if (snapshot && issues) {
+        const rest = Array.from(snapshot.children).filter(el => el !== issues);
+        const title = document.createElement('h2'); title.className = 'home-quick-title'; title.textContent = 'What do you see?';
+        const details = document.createElement('details'); details.className = 'home-cost-details';
+        const summary = document.createElement('summary'); summary.textContent = 'About the planning range';
+        details.append(summary, ...rest); snapshot.append(title, issues, details);
+      }
+      const problems = main.querySelector('#problems');
+      if (problems) (offer || hero).after(problems);
+      const pro = main.querySelector('#pro-package');
+      const more = document.createElement('div'); more.className = 'home-more-grid';
+      if (sample) more.append(sample);
+      if (pro) {
+        more.append(pro);
+        pro.querySelectorAll('.plan-card').forEach(card => {
+          const list = card.querySelector(':scope > .plan-list');
+          if (!list) return;
+          const details = document.createElement('details'); details.className = 'home-plan-details';
+          const summary = document.createElement('summary'); summary.textContent = 'See included tools';
+          list.before(details); details.append(summary, list);
+          const features = card.querySelector(':scope > .pro-feature-grid');
+          if (features) details.append(features);
+        });
+      }
+      if (more.children.length) (problems || offer || hero).after(more);
+      const guides = main.querySelector('#guides .guide-links');
+      if (guides) {
+        const details = document.createElement('details'); details.className = 'home-guides-details';
+        const summary = document.createElement('summary'); summary.textContent = 'Browse repair guides and calculators';
+        guides.before(details); details.append(summary, guides);
+      }
+    }
+    // Expands the actual sample; never opens checkout or exposes a paid report.
+    main.addEventListener('click', event => {
+      const link = event.target instanceof Element ? event.target.closest('a') : null;
+      if (link && sample && link.getAttribute('href') === '#' + sample.id) {
+        const details = sample.querySelector(':scope > details');
+        if (details) details.open = true;
+      }
+    });
+    if (sample && location.hash === '#' + sample.id) {
+      const details = sample.querySelector(':scope > details');
+      if (details) details.open = true;
+    }
+  }
+  if (document.readyState === 'complete') mountHomeLayout();
+  else {
+    // Run after the existing deferred homepage modules and their DOM-ready handlers.
+    document.addEventListener('DOMContentLoaded', () => setTimeout(mountHomeLayout, 0), {once:true});
+    window.addEventListener('load', mountHomeLayout, {once:true});
+  }
+})();
